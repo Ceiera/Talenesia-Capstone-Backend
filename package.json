@@ -15,8 +15,8 @@
     "nodemon": "^3.0.1"
   },
   "scripts": {
-    "start-dev": "nodemon index.js",
-    "start": "node index.js"
+    "start-dev": "nodemon src/index.js",
+    "start": "node src/index.js"
   },
   "type": "module"
 }
