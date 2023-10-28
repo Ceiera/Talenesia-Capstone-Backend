@@ -1,6 +1,5 @@
 import moongose from "mongoose";
 import nanoid from "nanoid";
-import bcrypt from "bcrypt";
 
 const adminSchema = new moongose.Schema({
     adminId : {

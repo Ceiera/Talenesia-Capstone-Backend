@@ -7,6 +7,10 @@ const usersSchema = new mongoose.Schema({
         default: nanoid.nanoid(12),
         required: true
     },
+    userRole:{
+        type: String,
+        required: true
+    },
     userEmail : {
         type: String,
         required: true
@@ -26,6 +30,20 @@ const usersSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    
-
+    userAvarat: {
+        type: String,
+        required: true,
+        default: "https://placehold.co/600x400.png"
+    },
+    createdAt:{
+        type: Date,
+        default: Date.now()
+    },
+    updatedAt: {
+        type: Date
+    },
+    softDeleted:{
+        type: Boolean,
+        default: false
+    }
 })
