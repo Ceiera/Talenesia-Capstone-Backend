@@ -1,10 +1,10 @@
-import nanoid from "nanoid";
+import {nanoid} from "nanoid";
 import mongoose from "mongoose";
 
 const usersSchema = new mongoose.Schema({
     userId : {
         type: String,
-        default: nanoid.nanoid(12),
+        default: nanoid(12),
         required: true
     },
     userRole:{
@@ -30,7 +30,7 @@ const usersSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    userAvarat: {
+    userAvatar: {
         type: String,
         required: true,
         default: "https://placehold.co/600x400.png"
@@ -47,3 +47,7 @@ const usersSchema = new mongoose.Schema({
         default: false
     }
 })
+
+const usersModel = mongoose.model("Users", usersSchema);
+
+export default usersModel

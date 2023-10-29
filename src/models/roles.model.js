@@ -1,10 +1,10 @@
-import  nanoid  from "nanoid";
+import  {nanoid}  from "nanoid";
 import mongoose from "mongoose";
 
 const rolesSchema = new mongoose.Schema({
     roleId : {
         type: String,
-        default: nanoid.nanoid(12),
+        default: nanoid(12),
         required: true
     },
     roleDescription: {

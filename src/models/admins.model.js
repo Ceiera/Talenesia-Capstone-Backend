@@ -1,10 +1,10 @@
 import moongose from "mongoose";
-import nanoid from "nanoid";
+import {nanoid} from "nanoid";
 
 const adminSchema = new moongose.Schema({
     adminId : {
         type: String,
-        default: nanoid.nanoid(12),
+        default: nanoid(12),
         required: true
     },
     adminFullname: {

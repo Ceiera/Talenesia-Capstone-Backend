@@ -3,6 +3,7 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
+import authsRoute from "./routes/auths.route.js";
 
 
 dotenv.config()
@@ -19,6 +20,9 @@ app.use(
     extended: true,
   })
 );
+
+
+app.use('/login', authsRoute);
 
 db.on("error", (err) => {
   console.log(err);
