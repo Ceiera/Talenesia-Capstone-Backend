@@ -4,6 +4,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 import authsRoute from "./routes/auths.route.js";
+import usersRoute from "./routes/users.route.js";
 
 
 dotenv.config()
@@ -23,6 +24,7 @@ app.use(
 
 
 app.use('/login', authsRoute);
+app.use('/users', usersRoute);
 
 db.on("error", (err) => {
   console.log(err);

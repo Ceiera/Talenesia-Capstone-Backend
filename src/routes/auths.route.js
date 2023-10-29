@@ -2,9 +2,9 @@ import express from "express";
 import authsController from "../controllers/auths.controller.js";
 const router = express.Router();
 
-router.post("/login", (req, res) => {
+router.post("/", async (req, res) => {
   try {
-    const result = authsController.login(req.body);
+    const result = await authsController.login(req.body);
     switch (result) {
       case "Missing Body":
         res.status(400).send({
@@ -20,15 +20,22 @@ router.post("/login", (req, res) => {
         res.status(401).send({
           message: result,
         });
+        break;
+      case "User Not Found":
+        res.status(404).send({
+          message: result,
+        })
+        break;
       default:
         res.status(200).send({
-          token: result,
+          data: {token : result},
+          message: "Success"
         });
         break;
     }
   } catch (error) {
     res.status(500).send({
-      message: error,
+      message: "Server Error",
     });
   }
 });

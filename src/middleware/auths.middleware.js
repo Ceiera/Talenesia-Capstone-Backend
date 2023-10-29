@@ -2,7 +2,8 @@ import jsonwebtoken from "jsonwebtoken";
 import dotenv from "dotenv/config";
 
 const verifyToken = (req, res, next) => {
-  const token = req.headers["authorization"];
+  const header = req.headers["authorization"];
+  const token = header && header.split(" ")[1];
   if (!token) {
     res.status(403).send({
       message: "No token provided!",
