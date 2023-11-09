@@ -5,7 +5,8 @@ import dotenv from "dotenv";
 import mongoose from "mongoose";
 import authsRoute from "./routes/auths.route.js";
 import usersRoute from "./routes/users.route.js";
-
+import batchesRouter from "./routes/batches.route.js";
+import learningTracksRouter from "./routes/learningTracks.route.js";
 
 dotenv.config()
 mongoose.connect(process.env.DATABASE_URL);
@@ -25,6 +26,8 @@ app.use(
 
 app.use('/login', authsRoute);
 app.use('/users', usersRoute);
+app.use('/batches', batchesRouter);
+app.use('/learningtracks', learningTracksRouter);
 
 db.on("error", (err) => {
   console.log(err);
