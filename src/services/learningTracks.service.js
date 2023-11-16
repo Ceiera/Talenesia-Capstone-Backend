@@ -10,7 +10,7 @@ const getAllLearningTracks = async () => {
   }
 };
 
-const createLearningTrack = async (learningTrack) => {
+const addLearningTrack = async (learningTrack) => {
   try {
     const newLearningTrack = new LearningTrackModel({
       learningTrackId: nanoid(12),
@@ -78,7 +78,7 @@ const updateLearningTrackById = async (id, learningTrack) => {
 
 const learningTrackServices = {
   getAllLearningTracks,
-  createLearningTrack,
+  addLearningTrack,
   getLearningTrackById,
   updateLearningTrackById,
   deleteLearningTrackById,

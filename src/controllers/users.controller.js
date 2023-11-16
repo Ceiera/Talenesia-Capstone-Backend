@@ -28,7 +28,7 @@ const getUserByEmail = async (email) => {
   } catch (error) {
     return "Server Error";
   }
-}
+};
 
 const getUserByUsername = async (username) => {
   try {
@@ -37,7 +37,7 @@ const getUserByUsername = async (username) => {
   } catch (error) {
     return "Server Error";
   }
-}
+};
 
 const getUserByUserId = async (userId) => {
   try {
@@ -46,7 +46,7 @@ const getUserByUserId = async (userId) => {
   } catch (error) {
     return "Server Error";
   }
-}
+};
 
 const getUserByFullname = async (fullname) => {
   try {
@@ -55,7 +55,7 @@ const getUserByFullname = async (fullname) => {
   } catch (error) {
     return "Server Error";
   }
-}
+};
 
 const updateUserById = async (userId, user) => {
   try {
@@ -64,7 +64,7 @@ const updateUserById = async (userId, user) => {
   } catch (error) {
     return "Server Error";
   }
-}
+};
 
 const deleteUserById = async (userId) => {
   try {
@@ -73,8 +73,17 @@ const deleteUserById = async (userId) => {
   } catch (error) {
     return "Server Error";
   }
-}
+};
 
-const usersController = { addUser, getAllUsers, getUserByEmail, getUserByUsername, getUserByUserId, getUserByFullname, updateUserById, deleteUserById };
+const usersController = {
+  addUser,
+  getAllUsers,
+  getUserByEmail,
+  getUserByUsername,
+  getUserByUserId,
+  getUserByFullname,
+  updateUserById,
+  deleteUserById,
+};
 
 export default usersController;

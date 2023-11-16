@@ -64,7 +64,9 @@ learningTrackRouter.post("/", async (req, res) => {
         data: [],
       });
     }
-    const learningTrack = await learningTracksController.createLearningTrack(payload);
+    const learningTrack = await learningTracksController.addLearningTrack(
+      payload
+    );
     if (learningTrack === "Server Error") {
       return res
         .status(500)
@@ -141,7 +143,11 @@ learningTrackRouter.patch("/:learningTrackId", async (req, res) => {
       message: "Learning Track Succesfully Updated",
       data: learningTrack,
     });
-  } catch (error) {}
+  } catch (error) {
+    return res
+      .status(500)
+      .send({ status: "error", message: "Server Error", data: [] });
+  }
 });
 
 export default learningTrackRouter;

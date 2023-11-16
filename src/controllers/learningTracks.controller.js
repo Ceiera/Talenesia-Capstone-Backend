@@ -9,9 +9,9 @@ const getAllLearningTracks = async () => {
   }
 };
 
-const createLearningTrack = async (learningTrack)=> {
+const addLearningTrack = async (learningTrack)=> {
   try {
-    const newLearningTrack = await learningTrackServices.createLearningTrack(learningTrack);
+    const newLearningTrack = await learningTrackServices.addLearningTrack(learningTrack);
     return newLearningTrack;
   } catch (error) {
     return "Server Error";
@@ -47,7 +47,7 @@ const getLearningTrackById = async (id)=> {
 
 const learningTracksController = {
   getAllLearningTracks,
-  createLearningTrack,
+  addLearningTrack,
   updateLearningTrackById,
   deleteLearningTrackById,
   getLearningTrackById,

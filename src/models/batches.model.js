@@ -1,10 +1,8 @@
-import { nanoid } from "nanoid";
 import mongoose from "mongoose";
 
 const batchSchema = new mongoose.Schema({
   batchId: {
     type: String,
-    default: nanoid(12),
     required: true,
   },
   learningTrackId: {
@@ -20,7 +18,6 @@ const batchSchema = new mongoose.Schema({
   },
   createdAt: {
     type: Date,
-    default: Date.now(),
   },
   participant: {
     type: [{}],
@@ -30,7 +27,6 @@ const batchSchema = new mongoose.Schema({
   },
   updatedAt: {
     type: Date,
-    default: Date.now(),
   },
   softDeleted: {
     type: Boolean,

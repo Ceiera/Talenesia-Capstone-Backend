@@ -1,5 +1,14 @@
 import batchesService from "../services/batches.service.js";
 
+const addBatch = async (batch) => {
+  try {
+    const newBatch = await batchesService.addBatch(batch);
+    return newBatch;
+  } catch (error) {
+    return "Server Error";
+  }
+};
+
 const getAllBatches = async () => {
   try {
     const batches = await batchesService.getAllBatches();
@@ -9,28 +18,19 @@ const getAllBatches = async () => {
   }
 };
 
-const getBatchesByBatchId = async (batchId) => {
+const getBatchById = async (id) => {
   try {
-    const batches = await batchesService.getBatchesByBatchId(batchId);
-    return batches;
+    const batch = await batchesService.getBatchById(id);
+    return batch;
   } catch (error) {
     return "Server Error";
   }
 };
 
-const getBatchesByUserId = async (userId) => {
+const updateBatchById = async (batchId, batch) => {
   try {
-    const batches = await batchesService.getBatchesByUserId(userId);
-    return batches;
-  } catch (error) {
-    return "Server Error";
-  }
-};
-
-const createBatch = async (batch) => {
-  try {
-    const newBatch = await batchesService.createBatch(batch);
-    return newBatch;
+    const updatedBatch = await batchesService.updateBatchById(batchId, batch);
+    return updatedBatch;
   } catch (error) {
     return "Server Error";
   }
@@ -45,23 +45,32 @@ const deleteBatchById = async (batchId) => {
   }
 };
 
-const addParticipant = async (batchId, user) => {
+const addParticipant = async (id, participant) => {
   try {
-    const addedParticipant = await batchesService.addParticipant(batchId, user);
-    return addedParticipant;
+    const batch = await batchesService.addParticipant(id, participant);
+    return batch;
   } catch (error) {
     return "Server Error";
   }
-}
+};
 
-const addMentor = async (batchId, mentorId) => {
+const addMentor = async (id, mentor) => {
   try {
-    const addedMentor = await batchesService.addMentor(batchId, mentorId);
-    return addedMentor;
+    const batch = await batchesService.addMentor(id, mentor);
+    return batch;
   } catch (error) {
     return "Server Error";
   }
-}
+};
 
-const batchesController = { getAllBatches, getBatchesByUserId, createBatch, deleteBatchById, getBatchesByBatchId, addParticipant, addMentor };
+const batchesController = {
+  addBatch,
+  getAllBatches,
+  getBatchById,
+  updateBatchById,
+  deleteBatchById,
+  addMentor,
+  addParticipant,
+};
+
 export default batchesController;
