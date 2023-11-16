@@ -21,6 +21,60 @@ const getAllUsers = async () => {
   }
 };
 
-const usersController = { addUser, getAllUsers };
+const getUserByEmail = async (email) => {
+  try {
+    const user = await usersService.getUserByEmail(email);
+    return user;
+  } catch (error) {
+    return "Server Error";
+  }
+}
+
+const getUserByUsername = async (username) => {
+  try {
+    const user = await usersService.getUserByUsername(username);
+    return user;
+  } catch (error) {
+    return "Server Error";
+  }
+}
+
+const getUserByUserId = async (userId) => {
+  try {
+    const user = await usersService.getUserByUserId(userId);
+    return user;
+  } catch (error) {
+    return "Server Error";
+  }
+}
+
+const getUserByFullname = async (fullname) => {
+  try {
+    const user = await usersService.getUserByFullname(fullname);
+    return user;
+  } catch (error) {
+    return "Server Error";
+  }
+}
+
+const updateUserById = async (userId, user) => {
+  try {
+    const updatedUser = await usersService.updateUserById(userId, user);
+    return updatedUser;
+  } catch (error) {
+    return "Server Error";
+  }
+}
+
+const deleteUserById = async (userId) => {
+  try {
+    const deletedUser = await usersService.deleteUserById(userId);
+    return deletedUser;
+  } catch (error) {
+    return "Server Error";
+  }
+}
+
+const usersController = { addUser, getAllUsers, getUserByEmail, getUserByUsername, getUserByUserId, getUserByFullname, updateUserById };
 
 export default usersController;
