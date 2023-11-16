@@ -1,4 +1,4 @@
-import learningTracksController from "../controllers/learningTracks.controller";
+import learningTracksController from "../controllers/learningTracks.controller.js";
 import express from "express";
 
 const learningTrackRouter = express.Router();

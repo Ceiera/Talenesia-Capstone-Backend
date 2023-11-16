@@ -1,4 +1,4 @@
-import LearningTrackModel from "../models/learningTracks.model";
+import LearningTrackModel from "../models/learningTracks.model.js";
 
 const getAllLearningTracks = async () => {
   try {

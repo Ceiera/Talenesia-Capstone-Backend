@@ -1,4 +1,4 @@
-import learningTrackServices from "../services/learningTracks.service";
+import learningTrackServices from "../services/learningTracks.service.js";
 
 const getAllLearningTracks = async () => {
   try {

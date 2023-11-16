@@ -2,18 +2,17 @@ import usersModel from "../models/users.model.js";
 import jsonwebtoken from "jsonwebtoken";
 import bcrypt from "bcrypt";
 const createJWT = (user) => {
-    const payload = {
-        userId: user.userId,
-        userRole: user.userRole,
-        userEmail: user.userEmail,
-        userFullName: user.userFullName,
-        userName: user.userName,
-    }
+  const payload = {
+    userId: user.userId,
+    userRole: user.userRole,
+    userEmail: user.userEmail,
+    userFullName: user.userFullName,
+    userName: user.userName,
+  };
 
-    const token = jsonwebtoken.sign(payload, process.env.AUTH_SECRET);
-    return "Bearer " + token;
-}
-
+  const token = jsonwebtoken.sign(payload, process.env.AUTH_SECRET);
+  return "Bearer " + token;
+};
 
 const findByEmail = async (email) => {
   try {
@@ -30,20 +29,28 @@ const findByEmail = async (email) => {
 const addUser = async (user) => {
   try {
     const newUser = new usersModel({
-        userRole: user.userRole,
-        userEmail : user.userEmail,
-        userFullName : user.userFullName,
-        userName: user.userName,
-        userPassword : bcrypt.hash(user.userPassword, 10)
+      userRole: user.userRole,
+      userEmail: user.userEmail,
+      userFullName: user.userFullName,
+      userName: user.userName,
+      userPassword: bcrypt.hashSync(user.userPassword, 10),
     });
     const savedUser = await newUser.save();
-    return savedUser
-  }catch(error){
-    return "Server Error"
+    return savedUser;
+  } catch (error) {
+    return "Server Error";
   }
-}
+};
 
+const getAllUsers = async () => {
+  try {
+    const users = await usersModel.find();
+    return users;
+  } catch (error) {
+    return "Server Error";
+  }
+};
 
-const usersService = { findByEmail, createJWT, addUser };
+const usersService = { findByEmail, createJWT, addUser, getAllUsers };
 
 export default usersService;
