@@ -75,6 +75,6 @@ const deleteUserById = async (userId) => {
   }
 }
 
-const usersController = { addUser, getAllUsers, getUserByEmail, getUserByUsername, getUserByUserId, getUserByFullname, updateUserById };
+const usersController = { addUser, getAllUsers, getUserByEmail, getUserByUsername, getUserByUserId, getUserByFullname, updateUserById, deleteUserById };
 
 export default usersController;

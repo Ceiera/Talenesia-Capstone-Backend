@@ -1,4 +1,5 @@
 import LearningTrackModel from "../models/learningTracks.model.js";
+import { nanoid } from "nanoid";
 
 const getAllLearningTracks = async () => {
   try {
@@ -11,10 +12,17 @@ const getAllLearningTracks = async () => {
 
 const createLearningTrack = async (learningTrack) => {
   try {
-    const newLearningTrack = new LearningTrackModel(learningTrack);
+    const newLearningTrack = new LearningTrackModel({
+      learningTrackId: nanoid(12),
+      learningTrackName: learningTrack.learningTrackName,
+      learningTrackDescription: learningTrack.learningTrackDescription,
+      createdAt: Date.now(),
+      updatedAt: Date.now(),
+    });
     await newLearningTrack.save();
     return newLearningTrack;
   } catch (error) {
+    console.log(error)
     return "Server Error";
   }
 };
@@ -22,10 +30,10 @@ const createLearningTrack = async (learningTrack) => {
 const getLearningTrackById = async (id) => {
   try {
     const learningTrack = await LearningTrackModel.findOne({
-        learningTrackId: id,
+      learningTrackId: id,
     });
     if (!learningTrack) {
-      return "Learning Track Not Found";
+      return "Not Found";
     }
     return learningTrack;
   } catch (error) {
@@ -33,16 +41,37 @@ const getLearningTrackById = async (id) => {
   }
 };
 
-const deleteLearningTrackById = async (batchId) => {
+const deleteLearningTrackById = async (id) => {
   try {
     const deletedLearningTrack = await LearningTrackModel.deleteOne({
-      batchId: batchId,
+      learningTrackId: id,
     });
     if (deletedLearningTrack.deletedCount === 0) {
-      return "Learning Track Not Found";
+      return "Not Found";
     }
     return "Successfully Deleted";
   } catch (error) {
+    return "Server Error";
+  }
+};
+
+const updateLearningTrackById = async (id, learningTrack) => {
+  try {
+    const findLearningTrackById = await LearningTrackModel.findOne({
+      learningTrackId: id,
+    });
+    if (!findLearningTrackById) {
+      return "Not Found";
+    }
+    learningTrack.updatedAt = Date.now();
+    const updatedLearningTrack = await LearningTrackModel.findOneAndUpdate(
+      { learningTrackId: id },
+      learningTrack,
+      { new: true }
+    );
+    return updatedLearningTrack;
+  } catch (error) {
+    console.log(error)
     return "Server Error";
   }
 };
@@ -51,6 +80,7 @@ const learningTrackServices = {
   getAllLearningTracks,
   createLearningTrack,
   getLearningTrackById,
+  updateLearningTrackById,
   deleteLearningTrackById,
 };
 export default learningTrackServices;

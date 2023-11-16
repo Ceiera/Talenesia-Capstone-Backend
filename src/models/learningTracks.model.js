@@ -1,13 +1,7 @@
-import { nanoid } from "nanoid";
 import mongoose from "mongoose";
 
 const learningTrackSchema = new mongoose.Schema({
   learningTrackId: {
-    type: String,
-    default: nanoid(12),
-    required: true,
-  },
-  adminId: {
     type: String,
     required: true,
   },
@@ -20,7 +14,6 @@ const learningTrackSchema = new mongoose.Schema({
   },
   createdAt: {
     type: Date,
-    default: Date.now(),
   },
   updatedAt: {
     type: Date,

@@ -3,115 +3,52 @@ import learningTrackServices from "../services/learningTracks.service.js";
 const getAllLearningTracks = async () => {
   try {
     const learningTracks = await learningTrackServices.getAllLearningTracks();
-    if (learningTracks === "Server Error") {
-      return res.status(500).send({
-        status: "error",
-        message: "Server Error",
-        data: [],
-      });
-    }
-
-    return res.status(200).send({
-      status: "success",
-      message: "Learning Tracks Succesfully Retrieved",
-      data: learningTracks,
-    });
+    return learningTracks;
   } catch (error) {
-    return res.status(500).send({
-      status: "error",
-      message: "Server Error",
-      data: [],
-    });
+    return "Server Error";
   }
 };
 
-const getLearningTrackById = async (id) => {
+const createLearningTrack = async (learningTrack)=> {
+  try {
+    const newLearningTrack = await learningTrackServices.createLearningTrack(learningTrack);
+    return newLearningTrack;
+  } catch (error) {
+    return "Server Error";
+  }
+}
+
+const updateLearningTrackById = async (id, learningTrack)=> {
+  try {
+    const updatelearningTrack = await learningTrackServices.updateLearningTrackById(id, learningTrack);
+    return updatelearningTrack;
+  } catch (error) {
+    return "Server Error";
+  }
+}
+
+const deleteLearningTrackById = async (id)=> {
+  try {
+    const learningTrack = await learningTrackServices.deleteLearningTrackById(id);
+    return learningTrack;
+  } catch (error) {
+    return "Server Error";
+  }
+}
+
+const getLearningTrackById = async (id)=> {
   try {
     const learningTrack = await learningTrackServices.getLearningTrackById(id);
-    if (learningTrack === "Server Error") {
-      return res.status(500).send({
-        status: "error",
-        message: "Server Error",
-        data: [],
-      });
-    }
-    if (learningTrack === "Learning Track Not Found") {
-      return res.status(404).send({
-        status: "error",
-        message: "Learning Track Not Found",
-        data: [],
-      });
-    }
-    return res.status(200).send({
-      status: "success",
-      message: "Learning Track Succesfully Retrieved",
-      data: learningTrack,
-    });
-  } catch (error) {
-    return res.status(500).send({
-      status: "error",
-      message: "Server Error",
-      data: [],
-    });
+    return learningTrack;
+  }catch{
+    return "Server Error";
   }
-};
-
-const createLearningTrack = async (newLearningTrack) => {
-  try {
-    const learningTrack = await learningTrackServices.createLearningTrack(
-      newLearningTrack
-    );
-    if (learningTrack === "Server Error") {
-      return res.status(500).send({
-        status: "error",
-        message: "Server Error",
-        data: [],
-      });
-    }
-  } catch (error) {
-    return res.status(500).send({
-      status: "error",
-      message: "Server Error",
-      data: [],
-    });
-  }
-};
-
-const deleteLearningTrackById = async (id) => {
-  try {
-    const deletedLearningTrack =
-      await learningTrackServices.deleteLearningTrackById();
-    if (deletedLearningTrack === "Server Error") {
-      return res.status(500).send({
-        status: "error",
-        message: "Server Error",
-        data: [],
-      });
-    }
-    if (deletedLearningTrack === "Learning Track Not Found") {
-      return res.status(404).send({
-        status: "error",
-        message: "Learning Track Not Found",
-        data: [],
-      });
-    }
-    return res.status(200).send({
-      status: "success",
-      message: "Learning Track Succesfully Deleted",
-      data: [],
-    });
-  } catch (error) {
-    return res.status(500).send({
-      status: "error",
-      message: "Server Error",
-      data: [],
-    });
-  }
-};
+}
 
 const learningTracksController = {
   getAllLearningTracks,
   createLearningTrack,
+  updateLearningTrackById,
   deleteLearningTrackById,
   getLearningTrackById,
 };

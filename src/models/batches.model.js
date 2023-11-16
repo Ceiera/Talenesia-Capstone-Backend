@@ -26,10 +26,11 @@ const batchSchema = new mongoose.Schema({
     type: [{}],
   },
   mentor: {
-    type: [String],
+    type: [{}],
   },
   updatedAt: {
     type: Date,
+    default: Date.now(),
   },
   softDeleted: {
     type: Boolean,

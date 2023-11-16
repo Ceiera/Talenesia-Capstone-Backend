@@ -36,13 +36,11 @@ learningTrackRouter.get("/:learningTrackId", async (req, res) => {
         .send({ status: "error", message: "Server Error", data: [] });
     }
     if (learningTrack === "Learning Track Not Found") {
-      return res
-        .status(404)
-        .send({
-          status: "error",
-          message: "Learning Track Not Found",
-          data: [],
-        });
+      return res.status(404).send({
+        status: "error",
+        message: "Learning Track Not Found",
+        data: [],
+      });
     }
     return res.status(200).send({
       status: "success",
@@ -58,9 +56,15 @@ learningTrackRouter.get("/:learningTrackId", async (req, res) => {
 
 learningTrackRouter.post("/", async (req, res) => {
   try {
-    const learningTrack = await learningTracksController.createLearningTrack(
-      req.body
-    );
+    const payload = req.body;
+    if (!(payload.learningTrackName || payload.learningTrackDescription)) {
+      return res.status(400).send({
+        status: "error",
+        message: "Missing Body",
+        data: [],
+      });
+    }
+    const learningTrack = await learningTracksController.createLearningTrack(payload);
     if (learningTrack === "Server Error") {
       return res
         .status(500)
@@ -88,25 +92,56 @@ learningTrackRouter.delete("/:learningTrackId", async (req, res) => {
         .status(500)
         .send({ status: "error", message: "Server Error", data: [] });
     }
-    if (deletedLearningTrack === "Learning Track Not Found") {
-      return res
-        .status(404)
-        .send({
-          status: "error",
-          message: "Learning Track Not Found",
-          data: [],
-        });
+    if (deletedLearningTrack === "Not Found") {
+      return res.status(404).send({
+        status: "error",
+        message: "Learning Track Not Found",
+        data: [],
+      });
     }
     return res.status(200).send({
       status: "success",
       message: "Learning Track Succesfully Deleted",
-      data: deletedLearningTrack,
+      data: [],
     });
   } catch (error) {
     return res
       .status(500)
       .send({ status: "error", message: "Server Error", data: [] });
   }
+});
+
+learningTrackRouter.patch("/:learningTrackId", async (req, res) => {
+  try {
+    const id = req.params.learningTrackId;
+    if (!id) {
+      return res.status(400).send({
+        status: "error",
+        message: "Missing Learning Track Id params",
+        data: [],
+      });
+    }
+    const payload = req.body;
+    if (!(payload.learningTrackName || payload.learningTrackDescription)) {
+      return res.status(400).send({
+        status: "error",
+        message: "Missing Body",
+        data: [],
+      });
+    }
+    const learningTrack =
+      await learningTracksController.updateLearningTrackById(id, payload);
+    if (learningTrack === "Server Error") {
+      return res
+        .status(500)
+        .send({ status: "error", message: "Server Error", data: [] });
+    }
+    return res.status(200).send({
+      status: "success",
+      message: "Learning Track Succesfully Updated",
+      data: learningTrack,
+    });
+  } catch (error) {}
 });
 
 export default learningTrackRouter;
