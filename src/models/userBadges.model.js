@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
-const userLibrariesSchema = new mongoose.Schema({
-  userLibrariesId: {
+const userBadgesSchema = new mongoose.Schema({
+  userBadgesId: {
     type: String,
     required: true,
   },
@@ -9,8 +9,8 @@ const userLibrariesSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  batchId: {
-    type: [String],
+  listBadges: {
+    type: [{}],
     required: true,
   },
   createdAt: {
@@ -25,5 +25,5 @@ const userLibrariesSchema = new mongoose.Schema({
   },
 });
 
-const UserLibrariesModel = mongoose.model("userlibraries", userLibrariesSchema);
-export default UserLibrariesModel;
+const UserBadgesModel = mongoose.model("userbadges", userBadgesSchema);
+export default UserBadgesModel;

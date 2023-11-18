@@ -41,5 +41,4 @@ const adminSchema = new moongose.Schema({
         type: Boolean,
         default: false
     }
-
 })

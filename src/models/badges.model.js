@@ -1,16 +1,20 @@
 import mongoose from "mongoose";
 
-const userLibrariesSchema = new mongoose.Schema({
-  userLibrariesId: {
+const badgesSchema = new mongoose.Schema({
+  badgeId: {
     type: String,
     required: true,
   },
-  userId: {
+  badgeName: {
     type: String,
     required: true,
   },
-  batchId: {
-    type: [String],
+  badgeDescription: {
+    type: String,
+    required: true,
+  },
+  badgeValue: {
+    type: Number,
     required: true,
   },
   createdAt: {
@@ -25,5 +29,6 @@ const userLibrariesSchema = new mongoose.Schema({
   },
 });
 
-const UserLibrariesModel = mongoose.model("userlibraries", userLibrariesSchema);
-export default UserLibrariesModel;
+const BadgesModel = mongoose.model("badges", badgesSchema);
+
+export default BadgesModel;

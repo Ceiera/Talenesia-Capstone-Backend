@@ -138,6 +138,13 @@ learningTrackRouter.patch("/:learningTrackId", async (req, res) => {
         .status(500)
         .send({ status: "error", message: "Server Error", data: [] });
     }
+    if (learningTrack === "Not Found") {
+      return res.status(404).send({
+        status: "error",
+        message: "Learning Track Not Found",
+        data: [],
+      });
+    }
     return res.status(200).send({
       status: "success",
       message: "Learning Track Succesfully Updated",

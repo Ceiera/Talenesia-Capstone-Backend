@@ -4,7 +4,6 @@ import mongoose from "mongoose";
 const courseSchema = new mongoose.Schema({
     courseId : {
         type: String,
-        default: nanoid(12),
         required: true
     },
     courseName: {
@@ -20,7 +19,6 @@ const courseSchema = new mongoose.Schema({
     },
     createdAt: {
         type: Date,
-        default: Date.now()
     },
     updatedAt: {
         type: Date,
