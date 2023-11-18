@@ -9,6 +9,8 @@ import batchesRouter from "./routes/batches.route.js";
 import learningTracksRouter from "./routes/learningTracks.route.js";
 import badgesRouter from "./routes/badges.route.js";
 import userLibraryRouter from "./routes/userLibraries.route.js";
+import userBadgesRouter from "./routes/userBadges.route.js";
+import registerRouter from "./routes/register.route.js";
 
 dotenv.config();
 mongoose.connect(process.env.DATABASE_URL);
@@ -25,12 +27,14 @@ app.use(
   })
 );
 
+app.use("/register", registerRouter);
 app.use("/login", authsRoute);
 app.use("/users", usersRoute);
 app.use("/batches", batchesRouter);
 app.use("/learningtracks", learningTracksRouter);
 app.use("/badges", badgesRouter);
 app.use("/userlibraries", userLibraryRouter);
+app.use("/userbadges", userBadgesRouter);
 
 db.on("error", (err) => {
   console.log(err);

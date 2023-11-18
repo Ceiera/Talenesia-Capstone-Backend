@@ -4,28 +4,40 @@ const router = express.Router();
 
 router.post("/", async (req, res) => {
   try {
-    const result = await authsController.login(req.body);
-    switch (result) {
-      case "Missing Body":
-        res.status(400).send({ status: "error", message: result, data: [] });
-        break;
-      case "Server Error":
-        res.status(500).send({ status: "error", message: result, data: [] });
-        break;
-      case "Invalid Password":
-        res.status(401).send({ status: "error", message: result, data: [] });
-        break;
-      case "User Not Found":
-        res.status(404).send({ status: "error", message: result, data: [] });
-        break;
-      default:
-        res.status(200).send({
-          status: "success",
-          message: "Succesfully Login",
-          data: { token: result },
-        });
-        break;
+    const payload = req.body;
+    if (!(payload.email || payload.password)) {
+      res
+        .status(400)
+        .send({ status: "error", message: "Missing Body", data: [] });
+      return;
     }
+    const result = await authsController.login(payload);
+    if (result === "Not Found") {
+      return res.status(404).send({
+        status: "error",
+        message: "User Not Found",
+        data: [],
+      });
+    }
+    if (result === "Incorrect Password") {
+      return res.status(400).send({
+        status: "error",
+        message: "Incorrect Password",
+        data: [],
+      });
+    }
+    if (result === "Server Error") {
+      return res
+        .status(500)
+        .send({ status: "error", message: "Server Error", data: [] });
+    }
+    return res.status(200).send({
+      status: "success",
+      message: "Login Success",
+      data: {
+        token: result,
+      },
+    });
   } catch (error) {
     res
       .status(500)

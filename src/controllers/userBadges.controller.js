@@ -1,9 +1,9 @@
 import userBadgesService from "../services/userBadges.service.js";
 
-const addUserBadge = async (userBadges) => {
+const addUserBadge = async (userBadge) => {
   try {
-    const userBadge = await userBadgesService.addUserBadge(userBadges);
-    return userBadge;
+    const newUserBadge = await userBadgesService.addUserBadge(userBadge);
+    return newUserBadge;
   } catch (error) {
     return "Server Error";
   }
@@ -29,8 +29,8 @@ const getUserBadgeById = async (id) => {
 
 const deleteUserBadgeById = async (id) => {
   try {
-    const userBadge = await userBadgesService.deleteUserBadgeById(id);
-    return userBadge;
+    const deletedUserBadge = await userBadgesService.deleteUserBadgeById(id);
+    return deletedUserBadge;
   } catch (error) {
     return "Server Error";
   }

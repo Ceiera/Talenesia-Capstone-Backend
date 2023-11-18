@@ -1,11 +1,11 @@
 import UserBadgesModel from "../models/userBadges.model.js";
 import { nanoid } from "nanoid";
 
-const addUserBadge = async (userBadges) => {
+const addUserBadge = async (userBadge) => {
   try {
     const userBadges = new UserBadgesModel({
       userBadgesId: nanoid(12),
-      userId: userBadges.userId,
+      userId: userBadge.userId,
       listBadges: [],
       createdAt: Date.now(),
       updatedAt: Date.now(),
@@ -78,12 +78,10 @@ const deleteUserBadgeById = async (id) => {
     if (!userBadge) {
       return "Not Found";
     }
-    const updatedUserBadge = await UserBadgesModel.findOneAndUpdate(
-      { userBadgesId: id },
-      userBadge,
-      { new: true }
-    );
-    return updatedUserBadge;
+    const deletedUserBadge = await UserBadgesModel.findOneAndDelete({
+      userBadgesId: id,
+    })
+    return deletedUserBadge;
   } catch (error) {
     return "Server Error";
   }

@@ -1,27 +1,29 @@
 import usersService from "../services/users.service.js";
 import bcrypt from "bcrypt";
 
-const login = async (body) => {
+const login = async (payload) => {
   try {
-    const { email, password } = body;
-    if (!(email, password)) {
-       return 'Missing Body'
+    const userDetails = await usersService.findByEmail(payload.email);
+    if (!userDetails) {
+      return "Not Found";
     }
-
-    const userDetails = await usersService.findByEmail(email);
-    const match = await bcrypt.compare(password, userDetails.userPassword)
+    const match = await bcrypt.compare(payload.password, userDetails.userPassword);
     if (!match) {
       return "Incorrect password";
     }
-    const token = usersService.createJWT(userDetails);
-    return token
+    const userEntity = {
+      userId: userDetails.userId,
+      userRole: userDetails.userRole,
+      userEmail: userDetails.userEmail,
+      userFullName: userDetails.userFullName,
+      userName: userDetails.userName,
+    }
+    const token = usersService.createJWT(userEntity);
+    return token;
   } catch (error) {
     return "Server Error";
   }
 };
-
-
-
 
 const authsController = {
   login,
