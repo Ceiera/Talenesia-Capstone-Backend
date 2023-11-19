@@ -6,6 +6,7 @@ import mongoose from "mongoose";
 import authsRoute from "./routes/auths.route.js";
 import usersRoute from "./routes/users.route.js";
 import batchesRouter from "./routes/batches.route.js";
+import coursesRouter from "./routes/courses.route.js";
 import learningTracksRouter from "./routes/learningTracks.route.js";
 import badgesRouter from "./routes/badges.route.js";
 import userLibraryRouter from "./routes/userLibraries.route.js";
@@ -33,6 +34,7 @@ app.use("/login", authsRoute);
 //api ADMIN untuk Populate
 app.use("/users", usersRoute);
 app.use("/batches", batchesRouter);
+app.use("/courses", coursesRouter);
 app.use("/learningtracks", learningTracksRouter);
 app.use("/badges", badgesRouter);
 app.use("/userlibraries", userLibraryRouter);
