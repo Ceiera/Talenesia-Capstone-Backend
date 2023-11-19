@@ -4,7 +4,6 @@ import mongoose from "mongoose";
 const subCourseSchema = new mongoose.Schema({
     subCourseId : {
         type: String,
-        default: nanoid(12),
         required: true
     },
     subCourseName: {
@@ -31,3 +30,7 @@ const subCourseSchema = new mongoose.Schema({
         default: false
     }
 })
+
+const subCoursesModel = mongoose.model("subcourses", subCourseSchema);
+
+export default subCoursesModel;

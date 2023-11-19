@@ -4,7 +4,7 @@ import { nanoid } from "nanoid";
 const addCourse = async (course) => {
   try {
     const newCourse = new CoursesModel({
-      batchId: nanoid(12),
+      courseId: nanoid(12),
       courseName: course.courseName,
       courseDescription: course.courseDescription,
       learningTrackId: course.learningTrackId,
