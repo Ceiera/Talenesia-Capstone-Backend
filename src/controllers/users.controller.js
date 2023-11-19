@@ -1,77 +1,374 @@
 import usersService from "../services/users.service.js";
+import userLibrariesService from "../services/userLibraries.service.js";
+import userBadgesService from "../services/userBadges.service.js";
 
-const addUser = async (user) => {
+const addUser = async (req, res) => {
   try {
-    const newUser = await usersService.addUser(user);
-    if (newUser === "Server Error") {
-      return "Server Error";
+    const payload = req.body;
+    if (
+      !(
+        payload.userRole ||
+        payload.userEmail ||
+        payload.userPassword ||
+        payload.userFullName ||
+        payload.userName
+      )
+    ) {
+      res
+        .status(400)
+        .send({ status: "error", message: "Missing Body", data: [] });
+      return;
     }
-    return newUser;
+    const newUser = await usersService.addUser(payload);
+    if (newUser === "Server Error") {
+      res
+        .status(500)
+        .send({ status: "error", message: "Server Error", data: [] });
+      return;
+    }
+    res.status(201).send({
+      status: "success",
+      message: "User Succesfully Created",
+      data: newUser,
+    });
   } catch (error) {
-    return "Server Error";
+    return res
+      .status(500)
+      .send({ status: "error", message: "Server Error", data: [] });
   }
 };
 
-const getAllUsers = async () => {
+const getAllUsers = async (req, res) => {
   try {
     const users = await usersService.getAllUsers();
-    return users;
+    if (users === "Server Error") {
+      return res.status(500).send({
+        status: "error",
+        message: "Server Error",
+        data: [],
+      });
+    }
+    return res.status(200).send({
+      status: "success",
+      message: "Users Succesfully Retrieved",
+      data: users,
+    });
   } catch (error) {
-    return "Server Error";
+    return res.status(500).send({
+      status: "error",
+      message: "Server Error",
+      data: [],
+    });
   }
 };
 
-const getUserByEmail = async (email) => {
+const getUserByEmail = async (req, res) => {
   try {
+    const email = req.query.email;
+    if (!email) {
+      return res.status(400).send({
+        status: "error",
+        message: "Missing Email Query",
+        data: [],
+      });
+    }
     const user = await usersService.getUserByEmail(email);
-    return user;
+    if (user === "Server Error") {
+      return res.status(500).send({
+        status: "error",
+        message: "Server Error",
+        data: [],
+      });
+    }
+    if (!user) {
+      return res.status(404).send({
+        status: "error",
+        message: "User Not Found",
+        data: [],
+      });
+    }
+    return res.status(200).send({
+      status: "success",
+      message: "User Succesfully Retrieved",
+      data: user,
+    });
   } catch (error) {
-    return "Server Error";
+    return res.status(500).send({
+      status: "error",
+      message: "Server Error",
+      data: [],
+    });
   }
 };
 
-const getUserByUsername = async (username) => {
+const getUserByFullname = async (req, res) => {
   try {
-    const user = await usersService.getUserByUsername(username);
-    return user;
-  } catch (error) {
-    return "Server Error";
-  }
-};
-
-const getUserByUserId = async (userId) => {
-  try {
-    const user = await usersService.getUserByUserId(userId);
-    return user;
-  } catch (error) {
-    return "Server Error";
-  }
-};
-
-const getUserByFullname = async (fullname) => {
-  try {
+    const fullname = req.query.fullname;
+    if (!fullname) {
+      return res.status(400).send({
+        status: "error",
+        message: "Missing Username Query",
+        data: [],
+      });
+    }
     const user = await usersService.getUserByFullname(fullname);
-    return user;
+    if (user === "Server Error") {
+      return res.status(500).send({
+        status: "error",
+        message: "Server Error",
+        data: [],
+      });
+    }
+    return res.status(200).send({
+      status: "success",
+      message: "User Succesfully Retrieved",
+      data: user,
+    });
   } catch (error) {
-    return "Server Error";
+    return res.status(500).send({
+      status: "error",
+      message: "Server Error",
+      data: [],
+    });
   }
 };
 
-const updateUserById = async (userId, user) => {
+const getUserByUsername = async (req, res) => {
   try {
-    const updatedUser = await usersService.updateUserById(userId, user);
-    return updatedUser;
+    const username = req.query.username;
+    if (!username) {
+      return res.status(400).send({
+        status: "error",
+        message: "Missing Username Query",
+        data: [],
+      });
+    }
+    const user = await usersService.getUserByUsername(username);
+    if (user === "Server Error") {
+      return res.status(500).send({
+        status: "error",
+        message: "Server Error",
+        data: [],
+      });
+    }
+    if (!user) {
+      return res.status(404).send({
+        status: "error",
+        message: "User Not Found",
+        data: [],
+      });
+    }
+    return res.status(200).send({
+      status: "success",
+      message: "User Succesfully Retrieved",
+      data: user,
+    });
   } catch (error) {
-    return "Server Error";
+    return res.status(500).send({
+      status: "error",
+      message: "Server Error",
+      data: [],
+    });
   }
 };
 
-const deleteUserById = async (userId) => {
+const getUserByUserId = async (req, res) => {
   try {
-    const deletedUser = await usersService.deleteUserById(userId);
-    return deletedUser;
+    const id = req.params.userId;
+    if (!id) {
+      return res.status(400).send({
+        status: "error",
+        message: "Missing UserId params",
+        data: [],
+      });
+    }
+    const user = await usersService.getUserByUserId(id);
+    if (user === "Server Error") {
+      return res.status(500).send({
+        status: "error",
+        message: "Server Error",
+        data: [],
+      });
+    }
+    if (!user) {
+      return res.status(404).send({
+        status: "error",
+        message: "User Not Found",
+        data: [],
+      });
+    }
+    return res.status(200).send({
+      status: "success",
+      message: "User Succesfully Retrieved",
+      data: user,
+    });
   } catch (error) {
-    return "Server Error";
+    return res.status(500).send({
+      status: "error",
+      message: "Server Error",
+      data: [],
+    });
+  }
+};
+
+const updateUserById = async (req, res) => {
+  try {
+    const id = req.params.userId;
+    const payload = req.body;
+    if (!id) {
+      return res.status(400).send({
+        status: "error",
+        message: "Missing UserId params",
+        data: [],
+      });
+    }
+    if (
+      !(
+        payload.userRole ||
+        payload.userEmail ||
+        payload.userPassword ||
+        payload.userUsername ||
+        payload.userFullName
+      )
+    ) {
+      return res.status(400).send({
+        status: "error",
+        message: "Missing Body",
+        data: [],
+      });
+    }
+    const user = await usersService.updateUserById(id, payload);
+    if (user === "Server Error") {
+      return res.status(500).send({
+        status: "error",
+        message: "Server Error",
+        data: [],
+      });
+    }
+    if (user === "Not Found") {
+      return res.status(404).send({
+        status: "error",
+        message: "User Not Found",
+        data: [],
+      });
+    }
+    return res.status(200).send({
+      status: "success",
+      message: "User Succesfully Updated",
+      data: user,
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).send({
+      status: "error",
+      message: "Server Error",
+      data: [],
+    });
+  }
+};
+
+const deleteUserById = async (req, res) => {
+  try {
+    const id = req.params.userId;
+    if (!id) {
+      return res.status(400).send({
+        status: "error",
+        message: "Missing UserId params",
+        data: [],
+      });
+    }
+    const user = await usersService.deleteUserById(id);
+    if (user === "Server Error") {
+      return res.status(500).send({
+        status: "error",
+        message: "Server Error",
+        data: [],
+      });
+    }
+    if (user === "Not Found") {
+      return res.status(404).send({
+        status: "error",
+        message: "User Not Found",
+        data: [],
+      });
+    }
+    return res.status(200).send({
+      status: "success",
+      message: "User Succesfully Deleted",
+      data: [],
+    });
+  } catch (error) {
+    return res.status(500).send({
+      status: "error",
+      message: "Server Error",
+      data: [],
+    });
+  }
+};
+
+const getUserLibraries = async (req, res) => {
+  try {
+    const userId = req.auth.userId;
+    const userLibraries = await userLibrariesService.getUserLibraryByUserId(
+      userId
+    );
+    if (userLibraries === "Not Found") {
+      return res.status(404).send({
+        status: "error",
+        message: "User Libraries Not Found",
+        data: [],
+      });
+    }
+    if (userLibraries === "Server Error") {
+      return res.status(500).send({
+        status: "error",
+        message: "Server Error",
+        data: [],
+      });
+    }
+    return res.status(200).send({
+      status: "success",
+      message: "User Libraries Succesfully Retrieved",
+      data: userLibraries,
+    });
+  } catch (error) {
+    return res.status(500).send({
+      status: "error",
+      message: "Server Error",
+      data: [],
+    });
+  }
+};
+
+const getUserBadges = async (req, res) => {
+  try {
+    const userId = req.auth.userId;
+    const userBadges = await userBadgesService.getUserBadgeByUserId(userId);
+    if (userBadges === "Not Found") {
+      return res.status(404).send({
+        status: "error",
+        message: "User Badges Not Found",
+        data: [],
+      });
+    }
+    if (userBadges === "Server Error") {
+      return res.status(500).send({
+        status: "error",
+        message: "Server Error",
+        data: [],
+      });
+    }
+    return res.status(200).send({
+      status: "success",
+      message: "User Badges Succesfully Retrieved",
+      data: userBadges,
+    });
+  } catch (error) {
+    return res.status(500).send({
+      status: "error",
+      message: "Server Error",
+      data: [],
+    });
   }
 };
 
@@ -84,6 +381,8 @@ const usersController = {
   getUserByFullname,
   updateUserById,
   deleteUserById,
+  getUserLibraries,
+  getUserBadges,
 };
 
 export default usersController;

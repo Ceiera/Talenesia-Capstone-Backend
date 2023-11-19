@@ -87,6 +87,7 @@ const deleteUserBadgeById = async (id) => {
   }
 };
 
+
 const userBadgesService = {
   addUserBadge,
   getAllUserBadges,

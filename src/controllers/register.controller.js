@@ -1,11 +1,38 @@
 import registerService from "../services/register.service.js";
 
-const registerUser = async (user) => {
+const registerUser = async (req, res) => {
   try {
-    const newUser = await registerService.registerUser(user);
-    return newUser;
+    const payload = req.body;
+    if (
+      !(
+        payload.userRole ||
+        payload.userEmail ||
+        payload.userPassword ||
+        payload.userFullName ||
+        payload.userName
+      )
+    ) {
+      return res
+        .status(400)
+        .send({ status: "error", message: "Missing Body", data: [] });
+    }
+    const user = await registerService.registerUser(user);
+    if (user === "Server Error") {
+      return res
+        .status(500)
+        .send({ status: "error", message: "Server Error", data: [] });
+    }
+    return res.status(201).send({
+      status: "success",
+      message: "User Succesfully Created",
+      data: user,
+    });
   } catch (error) {
-    return "Server Error";
+    return res.status(500).send({
+      status: "error",
+      message: "Server Error",
+      data: [],
+    });
   }
 };
 

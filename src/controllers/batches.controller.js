@@ -1,65 +1,279 @@
 import batchesService from "../services/batches.service.js";
 
-const addBatch = async (batch) => {
+const addBatch = async (req, res) => {
   try {
-    const newBatch = await batchesService.addBatch(batch);
-    return newBatch;
+    const payload = req.body;
+    if (
+      !(
+        payload.learningTrackId ||
+        payload.batchName ||
+        payload.batchDescription
+      )
+    ) {
+      return res.status(400).send({
+        status: "error",
+        message: "Missing Body",
+        data: [],
+      });
+    }
+    const batch = await batchesService.addBatch(payload);
+    if (batch === "Server Error") {
+      return res
+        .status(500)
+        .send({ status: "error", message: "Server Error", data: [] });
+    }
+    return res.status(201).send({
+      status: "success",
+      message: "Batch Succesfully Created",
+      data: batch,
+    });
   } catch (error) {
-    return "Server Error";
+    return res
+      .status(500)
+      .send({ status: "error", message: "Server Error", data: [] });
   }
 };
 
-const getAllBatches = async () => {
+const getAllBatches = async (req, res) => {
   try {
     const batches = await batchesService.getAllBatches();
-    return batches;
+    if (batches === "Server Error") {
+      return res.status(500).send({
+        status: "error",
+        message: "Server Error",
+        data: [],
+      });
+    }
+    return res.status(200).send({
+      status: "success",
+      message: "Batches Succesfully Retrieved",
+      data: batches,
+    });
   } catch (error) {
-    return "Server Error";
+    return res.status(500).send({
+      status: "error",
+      message: "Server sError",
+      data: [],
+    });
   }
 };
 
-const getBatchById = async (id) => {
+const getBatchById = async (req, res) => {
   try {
+    const id = req.params.batchId;
+    if (!id) {
+      return res.status(400).send({
+        status: "error",
+        message: "Missing BatchId params",
+        data: [],
+      });
+    }
     const batch = await batchesService.getBatchById(id);
-    return batch;
+    if (batch === "Server Error") {
+      return res.status(500).send({
+        status: "error",
+        message: "Server Error",
+        data: [],
+      });
+    }
+    if (batch === "Not Found") {
+      return res.status(404).send({
+        status: "error",
+        message: "Batch Not Found",
+        data: [],
+      });
+    }
+    return res.status(200).send({
+      status: "success",
+      message: "Batch Succesfully Retrieved",
+      data: batch,
+    });
   } catch (error) {
-    return "Server Error";
+    return res.status(500).send({
+      status: "error",
+      message: "Server Error",
+      data: [],
+    });
   }
 };
 
-const updateBatchById = async (batchId, batch) => {
+const updateBatchById = async (req, res) => {
   try {
-    const updatedBatch = await batchesService.updateBatchById(batchId, batch);
-    return updatedBatch;
+    const id = req.params.batchId;
+    if (!id) {
+      return res.status(400).send({
+        status: "error",
+        message: "Missing BatchId params",
+        data: [],
+      });
+    }
+    const payload = req.body;
+    if (!(payload.batchName || batchDescription)) {
+      return res.status(400).send({
+        status: "error",
+        message: "Missing Body",
+        data: [],
+      });
+    }
+    const batch = await batchesService.updateBatchById(id, payload);
+    if (batch === "Server Error") {
+      return res.status(500).send({
+        status: "error",
+        message: "Server Error",
+        data: [],
+      });
+    }
+    if (batch === "Not Found") {
+      return res.status(404).send({
+        status: "error",
+        message: "Batch Not Found",
+        data: [],
+      });
+    }
+    return res.status(200).send({
+      status: "success",
+      message: "Batch Succesfully Updated",
+      data: batch,
+    });
   } catch (error) {
-    return "Server Error";
+    return res.status(500).send({
+      status: "error",
+      message: "Server Error",
+      data: [],
+    });
   }
 };
 
-const deleteBatchById = async (batchId) => {
+const deleteBatchById = async (req, res) => {
   try {
-    const deletedBatch = await batchesService.deleteBatchById(batchId);
-    return deletedBatch;
+    const id = req.params.batchId;
+    if (!id) {
+      return res.status(400).send({
+        status: "error",
+        message: "Missing BatchId params",
+        data: [],
+      });
+    }
+    const batch = await batchesService.deleteBatchById(id);
+    if (batch === "Server Error") {
+      return res.status(500).send({
+        status: "error",
+        message: "Server Error",
+        data: [],
+      });
+    }
+    if (batch === "Not Found") {
+      return res.status(404).send({
+        status: "error",
+        message: "Batch Not Found",
+        data: [],
+      });
+    }
+    return res.status(200).send({
+      status: "success",
+      message: "Batch Succesfully Deleted",
+      data: [],
+    });
   } catch (error) {
-    return "Server Error";
+    return res.status(500).send({
+      status: "error",
+      message: "Server Error",
+      data: [],
+    });
   }
 };
 
-const addParticipant = async (id, participant) => {
+const addParticipant = async (req, res) => {
   try {
-    const batch = await batchesService.addParticipant(id, participant);
-    return batch;
+    const id = req.params.batchId;
+    if (!id) {
+      return res.status(400).send({
+        status: "error",
+        message: "Missing BatchId params",
+        data: [],
+      });
+    }
+    const payload = req.body;
+    if (!(payload.userId || payload.userFullName)) {
+      return res.status(400).send({
+        status: "error",
+        message: "Missing Body",
+        data: [],
+      });
+    }
+    const batch = await batchesService.addParticipant(id, payload);
+    if (batch === "Server Error") {
+      return res.status(500).send({
+        status: "error",
+        message: "Server Error",
+        data: [],
+      });
+    }
+    if (batch === "Not Found") {
+      return res.status(404).send({
+        status: "error",
+        message: "Batch Not Found",
+        data: [],
+      });
+    }
+    return res.status(200).send({
+      status: "success",
+      message: "Participant Succesfully Added",
+      data: batch,
+    });
   } catch (error) {
-    return "Server Error";
+    return res.status(500).send({
+      status: "error",
+      message: "Server Error",
+      data: [],
+    });
   }
 };
 
-const addMentor = async (id, mentor) => {
+const addMentor = async (req, res) => {
   try {
-    const batch = await batchesService.addMentor(id, mentor);
-    return batch;
+    const id = req.params.batchId;
+    if (!id) {
+      return res.status(400).send({
+        status: "error",
+        message: "Missing BatchId params",
+        data: [],
+      });
+    }
+    const payload = req.body;
+    if (!(payload.userId || payload.userFullName)) {
+      return res.status(400).send({
+        status: "error",
+        message: "Missing Body",
+        data: [],
+      });
+    }
+    const batch = await batchesService.addMentor(id, payload);
+    if (batch === "Server Error") {
+      return res.status(500).send({
+        status: "error",
+        message: "Server Error",
+        data: [],
+      });
+    }
+    if (batch === "Not Found") {
+      return res.status(404).send({
+        status: "error",
+        message: "Batch Not Found",
+        data: [],
+      });
+    }
+    return res.status(200).send({
+      status: "success",
+      message: "Mentor Succesfully Added",
+      data: batch,
+    });
   } catch (error) {
-    return "Server Error";
+    return res.status(500).send({
+      status: "error",
+      message: "Server Error",
+      data: [],
+    });
   }
 };
 

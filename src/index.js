@@ -29,6 +29,8 @@ app.use(
 
 app.use("/register", registerRouter);
 app.use("/login", authsRoute);
+
+//api ADMIN untuk Populate
 app.use("/users", usersRoute);
 app.use("/batches", batchesRouter);
 app.use("/learningtracks", learningTracksRouter);

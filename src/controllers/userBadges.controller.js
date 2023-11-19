@@ -1,38 +1,128 @@
 import userBadgesService from "../services/userBadges.service.js";
 
-const addUserBadge = async (userBadge) => {
+const addUserBadge = async (req, res) => {
   try {
-    const newUserBadge = await userBadgesService.addUserBadge(userBadge);
-    return newUserBadge;
+    const payload = req.body;
+    if (!payload.userId) {
+      return res.status(400).send({
+        status: "error",
+        message: "Missing Body",
+        data: [],
+      });
+    }
+    const newUserBadge = await userBadgesService.addUserBadge(payload);
+    if (newUserBadge === "Server Error") {
+      return res
+        .status(500)
+        .send({ status: "error", message: "Server Error", data: [] });
+    }
+    return res.status(201).send({
+      status: "success",
+      message: "User Badge Succesfully Created",
+      data: newUserBadge,
+    });
   } catch (error) {
-    return "Server Error";
+    return res.status(500).send({
+      status: "error",
+      message: "Server Error",
+      data: [],
+    });
   }
 };
 
-const getAllUserBadges = async () => {
+const getAllUserBadges = async (req, res) => {
   try {
     const userBadges = await userBadgesService.getAllUserBadges();
-    return userBadges;
+    if (userBadges === "Server Error") {
+      return res
+        .status(500)
+        .send({ status: "error", message: "Server Error", data: [] });
+    }
+    return res.status(200).send({
+      status: "success",
+      message: "User Badges Succesfully Retrieved",
+      data: userBadges,
+    });
   } catch (error) {
-    return "Server Error";
+    return res.status(500).send({
+      status: "error",
+      message: "Server Error",
+      data: [],
+    });
   }
 };
 
-const getUserBadgeById = async (id) => {
+const getUserBadgeById = async (req, res) => {
   try {
+    const id = req.params.userBadgeId;
+    if (!id) {
+      return res.status(400).send({
+        status: "error",
+        message: "Missing userBadgeId Params",
+        data: [],
+      });
+    }
     const userBadge = await userBadgesService.getUserBadgeById(id);
-    return userBadge;
+    if (userBadge === "Server Error") {
+      return res
+        .status(500)
+        .send({ status: "error", message: "Server Error", data: [] });
+    }
+    if (userBadge === "Not Found") {
+      return res.status(404).send({
+        status: "error",
+        message: "User Badge Not Found",
+        data: [],
+      });
+    }
+    return res.status(200).send({
+      status: "success",
+      message: "User Badge Succesfully Retrieved",
+      data: userBadge,
+    });
   } catch (error) {
-    return "Server Error";
+    return res.status(500).send({
+      status: "error",
+      message: "Server Error",
+      data: [],
+    });
   }
 };
 
-const deleteUserBadgeById = async (id) => {
+const deleteUserBadgeById = async (req, res) => {
   try {
+    const id = req.params.userBadgeId;
+    if (!id) {
+      return res.status(400).send({
+        status: "error",
+        message: "Missing userBadgeId Params",
+        data: [],
+      });
+    }
     const deletedUserBadge = await userBadgesService.deleteUserBadgeById(id);
-    return deletedUserBadge;
+    if (deletedUserBadge === "Server Error") {
+      return res
+        .status(500)
+        .send({ status: "error", message: "Server Error", data: [] });
+    }
+    if (deletedUserBadge === "Not Found") {
+      return res.status(404).send({
+        status: "error",
+        message: "User Badge Not Found",
+        data: [],
+      });
+    }
+    return res.status(200).send({
+      status: "success",
+      message: "User Badge Succesfully Deleted",
+      data: [],
+    });
   } catch (error) {
-    return "Server Error";
+    return res.status(500).send({
+      status: "error",
+      message: "Server Error",
+      data: [],
+    });
   }
 };
 

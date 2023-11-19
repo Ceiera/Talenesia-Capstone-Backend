@@ -1,7 +1,7 @@
 import jsonwebtoken from "jsonwebtoken";
 import dotenv from "dotenv/config";
 
-const verifyToken = (req, res, next) => {
+const verifyTokenUser = (req, res, next) => {
   const header = req.headers["authorization"];
   const token = header && header.split(" ")[1];
   if (!token) {
@@ -18,4 +18,6 @@ const verifyToken = (req, res, next) => {
   return next();
 };
 
-export { verifyToken };
+const authMiddleware = {verifyTokenUser}
+
+export default authMiddleware;
