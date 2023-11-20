@@ -1,5 +1,6 @@
 import { nanoid } from "nanoid";
 import UserLibrariesModel from "../models/userLibraries.model.js";
+import batchesService from "./batches.service.js";
 
 const addUserLibrary = async (userLibrary) => {
   try {
@@ -29,14 +30,32 @@ const getAllUserLibraries = async () => {
 
 const getUserLibraryByUserId = async (id) => {
   try {
-    const userLibrary = await UserLibrariesModel.findOne({
+    let userLibrary = await UserLibrariesModel.findOne({
       userId: id,
     });
     if (!userLibrary) {
       return "Not Found";
     }
-    return userLibrary;
+
+    let newUserLibrary = {
+      userLibrariesId: userLibrary.userLibrariesId,
+      userId: userLibrary.userId,
+      batchId: userLibrary.batchId,
+      createdAt: userLibrary.createdAt,
+      updatedAt: userLibrary.updatedAt,
+      infoBatches: [],
+    };
+    newUserLibrary.batchId.forEach(async (batch) => {
+      let findBatch = await batchesService.getBatchById(batch);
+      if (findBatch[0]) {
+        newUserLibrary.infoBatches.push(findBatch);
+      }
+      console.log(findBatch)
+    });
+    console.log(newUserLibrary)
+    return newUserLibrary; 
   } catch (error) {
+    console.log(error);
     return "Server Error";
   }
 };
@@ -70,6 +89,28 @@ const addBatchIdById = async (id, batchId) => {
       findUserLibrary,
       { new: true }
     );
+    return updatedUserLibrary;
+  } catch (error) {
+    return "Server Error";
+  }
+};
+
+const addBatchIdByUserId = async (id, batchId) => {
+  try {
+    let findUserLibrary = await UserLibrariesModel.findOne({
+      userId: id,
+    });
+    if (!findUserLibrary) {
+      return "Not Found";
+    }
+    findUserLibrary.batchId = [...findUserLibrary.batchId, batchId];
+    findUserLibrary.updatedAt = Date.now();
+    const updatedUserLibrary = await UserLibrariesModel.findOneAndUpdate(
+      { userLibrariesId: findUserLibrary.userLibrariesId },
+      findUserLibrary,
+      { new: true }
+    );
+    console.log(findUserLibrary);
     return updatedUserLibrary;
   } catch (error) {
     return "Server Error";
@@ -124,6 +165,7 @@ const userLibrariesService = {
   getAllUserLibraries,
   getUserLibraryByUserId,
   getUserLibraryById,
+  addBatchIdByUserId,
 };
 
 export default userLibrariesService;

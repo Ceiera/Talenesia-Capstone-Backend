@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import BatchesModel from "../models/batches.model.js";
+import userLibrariesService from "./userLibraries.service.js";
 import { nanoid } from "nanoid";
 
 const addBatch = async (batch) => {
@@ -82,6 +83,13 @@ const addParticipant = async (id, participant) => {
       findBatch,
       { new: true }
     );
+
+    //selesai add, 
+    const updatedUserLibrary = await userLibrariesService.addBatchIdByUserId(
+      participant.userId,
+      id
+    )
+    console.log(updatedUserLibrary);
     return updateBatch;
   } catch (error) {
     return "Server Error";
@@ -106,6 +114,10 @@ const addMentor = async (id, mentor) => {
       findBatch,
       { new: true }
     );
+    const updatedUserLibrary = await userLibrariesService.addBatchIdByUserId(
+      mentor.userId,
+      id
+    )
     return updateBatch;
   } catch (error) {
     console.log(error);

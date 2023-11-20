@@ -52,6 +52,7 @@ const login = async (req, res) => {
       status: "success",
       message: "Login Success",
       data: {
+        user: userEntity,
         token: token,
       },
     });

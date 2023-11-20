@@ -1,6 +1,8 @@
 import usersService from "../services/users.service.js";
 import userLibrariesService from "../services/userLibraries.service.js";
 import userBadgesService from "../services/userBadges.service.js";
+import userProgressService from "../services/userProgress.service.js";
+import userSubmissionsService from "../services/userSubmissions.service.js";
 
 const addUser = async (req, res) => {
   try {
@@ -372,6 +374,92 @@ const getUserBadges = async (req, res) => {
   }
 };
 
+const getUserProgress = async (req, res) => {
+  try {
+    const userId = req.auth.userId;
+    const batchId = req.query.batchId;
+    if (!userId || !batchId) {
+      return res.status(400).send({
+        status: "error",
+        message: "Missing Params",
+        data: [],
+      });
+    }
+    const userProgress = await userProgressService.getByBatchIdAndUserId(
+      userId,
+      batchId
+    )
+    if (userProgress === "Not Found") {
+      return res.status(404).send({
+        status: "error",
+        message: "User Progress Not Found",
+        data: [],
+      });
+    }
+    if (userProgress === "Server Error") {
+      return res.status(500).send({
+        status: "error",
+        message: "Server Error",
+        data: [],
+      });
+    }
+    return res.status(200).send({
+      status: "success",
+      message: "User Progress Succesfully Retrieved",
+      data: userProgress
+    })
+  } catch (error) {
+    return res.status(500).send({
+      status: "error",
+      message: "Server Error",
+      data: [],
+    });
+  }
+}
+
+const getUserSubmission = async (req, res) => {
+  try {
+    const userId = req.auth.userId;
+    const batchId = req.query.batchId;
+    if (!userId || !batchId) {
+      return res.status(400).send({
+        status: "error",
+        message: "Missing Params",
+        data: [],
+      });
+    }
+    const userSubmission = await userSubmissionsService.getByBatchIdAndUserId(
+      userId,
+      batchId
+    )
+    if (userSubmission === "Not Found") {
+      return res.status(404).send({
+        status: "error",
+        message: "User Submission Not Found",
+        data: [],
+      });
+    }
+    if (userSubmission === "Server Error") {
+      return res.status(500).send({
+        status: "error",
+        message: "Server Error",
+        data: [],
+      });
+    }
+    return res.status(200).send({
+      status: "success",
+      message: "User Submission Succesfully Retrieved",
+      data: userSubmission
+    })
+  } catch (error) {
+    return res.status(500).send({
+      status: "error",
+      message: "Server Error",
+      data: [],
+    });
+  }
+}
+
 const usersController = {
   addUser,
   getAllUsers,
@@ -383,6 +471,8 @@ const usersController = {
   deleteUserById,
   getUserLibraries,
   getUserBadges,
+  getUserSubmission,
+  getUserProgress
 };
 
 export default usersController;

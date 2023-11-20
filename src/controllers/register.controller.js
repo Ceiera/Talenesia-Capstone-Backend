@@ -16,7 +16,7 @@ const registerUser = async (req, res) => {
         .status(400)
         .send({ status: "error", message: "Missing Body", data: [] });
     }
-    const user = await registerService.registerUser(user);
+    const user = await registerService.registerUser(payload);
     if (user === "Server Error") {
       return res
         .status(500)
@@ -28,6 +28,7 @@ const registerUser = async (req, res) => {
       data: user,
     });
   } catch (error) {
+    console.log(error)
     return res.status(500).send({
       status: "error",
       message: "Server Error",

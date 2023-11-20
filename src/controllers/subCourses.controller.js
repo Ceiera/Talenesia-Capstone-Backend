@@ -89,6 +89,13 @@ const getSubCourseById = async (req, res) => {
 const updateSubCourseById = async (req, res) => {
   try {
     const subCourseId = req.params.subCourseId;
+    if (!subCourseId) {
+      return res.status(400).send({
+        status: "error",
+        message: "Missing Body",
+        data: [],
+      })
+    }
     const payload = req.body;
     if (
       !(
@@ -137,6 +144,13 @@ const updateSubCourseById = async (req, res) => {
 const deleteSubCourseById = async (req, res) => {
   try {
     const subCourseId = req.params.subCourseId;
+    if (!id) {
+      return res.status(400).send({
+        status: "error",
+        message: "Missing Body",
+        data: [],
+      });
+    }
     const subCourse = await subCoursesService.deleteSubCourseById(subCourseId);
     if (subCourse === "Server Error") {
       return res

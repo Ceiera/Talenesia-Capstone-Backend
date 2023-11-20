@@ -34,5 +34,17 @@ router.patch("/:userId", usersController.updateUserById);
 
 router.delete("/:userId", usersController.deleteUserById);
 
+router.get(
+  "/userprogress",
+  authMiddleware.verifyTokenUser,
+  usersController.getUserProgress
+);
+
+router.get(
+  "/usersubmission",
+  authMiddleware.verifyTokenUser,
+  usersController.getUserSubmission
+);
+
 const usersRoute = router;
 export default usersRoute;

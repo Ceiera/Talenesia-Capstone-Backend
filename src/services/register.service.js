@@ -1,6 +1,6 @@
 import usersService from "./users.service.js";
 import userLibrariesService from "./userLibraries.service.js";
-import userbadgesService from "./userbadges.service.js";
+import userbadgesService from "./userBadges.service.js";
 
 const registerUser = async (user) => {
   try {
