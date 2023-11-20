@@ -23,7 +23,10 @@ const db = mongoose.connection;
 const app = express();
 
 app.use(
-  cors()
+  cors({
+    origin: "*",
+    credentials: true,
+  })
 );
 app.use(cookieParser());
 app.use(express.json());
