@@ -11,6 +11,8 @@ import badgesRouter from "./routes/badges.route.js";
 import userLibraryRouter from "./routes/userLibraries.route.js";
 import userBadgesRouter from "./routes/userBadges.route.js";
 import registerRouter from "./routes/register.route.js";
+import coursesRouter from "./routes/courses.route.js";
+import subCoursesRouter from "./routes/subCourses.route.js";
 
 dotenv.config();
 mongoose.connect(process.env.DATABASE_URL);
@@ -37,6 +39,8 @@ app.use("/learningtracks", learningTracksRouter);
 app.use("/badges", badgesRouter);
 app.use("/userlibraries", userLibraryRouter);
 app.use("/userbadges", userBadgesRouter);
+app.use("/courses", coursesRouter);
+app.use("/subcourses", subCoursesRouter);
 
 db.on("error", (err) => {
   console.log(err);

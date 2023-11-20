@@ -10,7 +10,21 @@ const userBadgesSchema = new mongoose.Schema({
     required: true,
   },
   listBadges: {
-    type: [{}],
+    type: [
+      {
+        badgeId: {
+          type: String,
+          required: true,
+        },
+        subCourseId: {
+          type: String,
+          required: true,
+        },
+        createdAt: {
+          type: Date,
+        }
+      }
+    ],
     required: true,
   },
   createdAt: {

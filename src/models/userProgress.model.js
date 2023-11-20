@@ -9,37 +9,12 @@ const userProgressSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  listProgress: {
-    type: [
-      {
-        batchId: {
-          type: String,
-          required: true,
-        },
-        subCourseId: {
-          type: String,
-          required: true,
-        },
-        subCourseDescription: {
-          type: String,
-          required: true,
-        },
-        subCourseFinished: {
-          type: Boolean,
-          required: true,
-        },
-        createdAt: {
-          type: Date,
-        },
-        updatedAt: {
-          type: Date,
-        },
-        softDeleted: {
-          type: Boolean,
-          default: false,
-        },
-      },
-    ],
+  batchId: {
+    type: String,
+    required: true,
+  },
+  subCourseId: {
+    type: String,
     required: true,
   },
   createdAt: {

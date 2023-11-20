@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import BatchesModel from "../models/batches.model.js";
 import { nanoid } from "nanoid";
 
@@ -22,21 +23,43 @@ const addBatch = async (batch) => {
 
 const getAllBatches = async () => {
   try {
-    const batches = await BatchesModel.find();
+    const batches = await BatchesModel.aggregate([
+      {
+        $lookup: {
+          from: "learningtracks",
+          localField: "learningTrackId",
+          foreignField: "learningTrackId",
+          as: "learningTrackDetail",
+        },
+      },
+    ]);
     return batches;
   } catch (error) {
+    console.log(error);
     return "Server Error";
   }
 };
 
 const getBatchById = async (id) => {
   try {
-    const batch = await BatchesModel.findOne({ batchId: id });
+    const batch = await BatchesModel.aggregate([
+      {
+        $match: { batchId: id },
+      },{
+        $lookup: {
+          from: "learningtracks",
+          localField: "learningTrackId",
+          foreignField: "learningTrackId",
+          as: "learningTrackDetail",
+        },
+      }
+    ]);
     if (!batch) {
       return "Not Found";
     }
     return batch;
   } catch (error) {
+    console.log(error);
     return "Server Error";
   }
 };
@@ -85,8 +108,7 @@ const addMentor = async (id, mentor) => {
     );
     return updateBatch;
   } catch (error) {
-    
-    console.log(error)
+    console.log(error);
     return "Server Error";
   }
 };
