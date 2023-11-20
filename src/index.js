@@ -44,7 +44,7 @@ app.use("/userbadges", userBadgesRouter);
 app.use("/courses", coursesRouter);
 app.use("/subcourses", subCoursesRouter);
 app.use("/userprogress", userProgressRouter);
-app.use("usersubmissions", userSubmissionsRouter);
+app.use("/usersubmissions", userSubmissionsRouter);
 
 db.on("error", (err) => {
   console.log(err);

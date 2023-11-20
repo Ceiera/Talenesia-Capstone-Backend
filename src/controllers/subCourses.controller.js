@@ -1,3 +1,4 @@
+import userBadgesService from "../services/userBadges.service.js";
 import subCoursesService from "../services/subCourses.service.js";
 const addSubCourse = async (req, res) => {
   try {
@@ -178,12 +179,46 @@ const deleteSubCourseById = async (req, res) => {
   }
 };
 
+const getBadgesBySubCourseId = async (req, res) => {
+  try {
+    const id = req.params.subCourseId;
+    if (!id) {
+      return res.status(400).send({
+        status: "error",
+        message: "Missing Body",
+        data: [],
+      })
+    }
+    const badges = await userBadgesService.getUserBadgeBySubCourseId(id);
+    if (badges === "Server Error") {
+      return res
+        .status(500)
+        .send({ status: "error", message: "Server Error", data: [] });
+    }
+    if (badges === "Not Found") {
+      return res.status(404).send({
+        status: "error",
+        message: "Badges Not Found",
+        data: [],
+      });
+    }
+    return res.status(200).send({
+      status: "success",
+      message: "Badges Succesfully Retrieved",
+      data: badges,
+    })
+  } catch (error) {
+    
+  }
+}
+
 const subCoursesController = {
   addSubCourse,
   getAllSubCourses,
   getSubCourseById,
   updateSubCourseById,
   deleteSubCourseById,
+  getBadgesBySubCourseId
 }
 
 export default subCoursesController;

@@ -22,21 +22,42 @@ const addLearningTrack = async (learningTrack) => {
     await newLearningTrack.save();
     return newLearningTrack;
   } catch (error) {
-    console.log(error)
+    console.log(error);
     return "Server Error";
   }
 };
 
 const getLearningTrackById = async (id) => {
   try {
-    const learningTrack = await LearningTrackModel.findOne({
-      learningTrackId: id,
-    });
+    const learningTrack = await LearningTrackModel.aggregate([
+      {
+        $match: { learningTrackId: id },
+      },
+      {
+        $lookup: {
+          from: "courses",
+          localField: "learningTrackId",
+          foreignField: "learningTrackId",
+          pipeline: [
+            {
+              $lookup:{
+                from:"subcourses",
+                localField:"courseId",
+                foreignField:"courseId",
+                as:"subCourseDetail"
+              }
+            }
+          ],
+          as: "courseDetail",
+        },
+      },
+    ]);
     if (!learningTrack) {
       return "Not Found";
     }
     return learningTrack;
   } catch (error) {
+    console.log(error);
     return "Server Error";
   }
 };
@@ -71,7 +92,7 @@ const updateLearningTrackById = async (id, learningTrack) => {
     );
     return updatedLearningTrack;
   } catch (error) {
-    console.log(error)
+    console.log(error);
     return "Server Error";
   }
 };

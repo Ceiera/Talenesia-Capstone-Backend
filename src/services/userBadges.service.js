@@ -6,7 +6,9 @@ const addUserBadge = async (userBadge) => {
     const userBadges = new UserBadgesModel({
       userBadgesId: nanoid(12),
       userId: userBadge.userId,
-      listBadges: [],
+      badgeId: userBadge.badgeId,
+      subCourseId: userBadge.subCourseId,
+      batchId: userBadge.batchId,
       createdAt: Date.now(),
       updatedAt: Date.now(),
     });
@@ -42,14 +44,74 @@ const getUserBadgeById = async (id) => {
 
 const getUserBadgeByUserId = async (id) => {
   try {
-    const userBadge = await UserBadgesModel.findOne({
-      userId: id,
-    });
+    const userBadge = await UserBadgesModel.aggregate([
+      {
+        $match: { userId: id },
+      },
+      {
+        $lookup: {
+          from: "badges",
+          localField: "badgeId",
+          foreignField: "badgeId",
+          as: "detailbadge",
+        }
+      }
+    ])
     if (!userBadge) {
       return "Not Found";
     }
     return userBadge;
   } catch (error) {
+    return "Server Error";
+  }
+};
+
+const getUserBadgeBySubCourseId = async (id) => {
+  try {
+    const userBadge = await UserBadgesModel.aggregate([
+      {
+        $match: { subCourseId: id },
+      },
+      {
+        $lookup: {
+          from: "badges",
+          localField: "badgeId",
+          foreignField: "badgeId",
+          as: "detailbadge",
+        }
+      }
+    ])
+    if (!userBadge) {
+      return "Not Found";
+    }
+    return userBadge;
+  } catch (error) {
+    console.log(error)
+    return "Server Error";
+  }
+};
+
+const getUserBadgeByBatchId = async (id) => {
+  try {
+    const userBadge = await UserBadgesModel.aggregate([
+      {
+        $match: { batchId: id },
+      },
+      {
+        $lookup: {
+          from: "badges",
+          localField: "badgeId",
+          foreignField: "badgeId",
+          as: "detailbadge",
+        }
+      }
+    ])
+    if (!userBadge) {
+      return "Not Found";
+    }
+    return userBadge;
+  } catch (error) {
+    console.log(error)
     return "Server Error";
   }
 };
@@ -95,6 +157,8 @@ const userBadgesService = {
   getUserBadgeByUserId,
   addBadge,
   deleteUserBadgeById,
+  getUserBadgeBySubCourseId,
+  getUserBadgeByBatchId
 };
 
 export default userBadgesService;

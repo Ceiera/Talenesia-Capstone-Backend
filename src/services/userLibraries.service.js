@@ -45,14 +45,12 @@ const getUserLibraryByUserId = async (id) => {
       updatedAt: userLibrary.updatedAt,
       infoBatches: [],
     };
-    newUserLibrary.batchId.forEach(async (batch) => {
-      let findBatch = await batchesService.getBatchById(batch);
-      if (findBatch[0]) {
-        newUserLibrary.infoBatches.push(findBatch);
+    for (const batchId of newUserLibrary.batchId) {
+      let find = await batchesService.getBatchById(batchId);
+      if (find) {
+        newUserLibrary.infoBatches.push(find);
       }
-      console.log(findBatch)
-    });
-    console.log(newUserLibrary)
+    }
     return newUserLibrary; 
   } catch (error) {
     console.log(error);
@@ -110,7 +108,6 @@ const addBatchIdByUserId = async (id, batchId) => {
       findUserLibrary,
       { new: true }
     );
-    console.log(findUserLibrary);
     return updatedUserLibrary;
   } catch (error) {
     return "Server Error";

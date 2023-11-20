@@ -1,4 +1,5 @@
 import batchesService from "../services/batches.service.js";
+import userBadgesService from "../services/userBadges.service.js";
 
 const addBatch = async (req, res) => {
   try {
@@ -277,6 +278,45 @@ const addMentor = async (req, res) => {
   }
 };
 
+const getBadgeByBatchId = async (req, res) => {
+  try {
+    const id = req.params.batchId;
+    if (!id) {
+      return res.status(400).send({
+        status: "error",
+        message: "Missing BatchId params",
+        data: [],
+      });
+    }
+    const batch = await userBadgesService.getUserBadgeByBatchId(id);
+    if (batch === "Server Error") {
+      return res.status(500).send({
+        status: "error",
+        message: "Server Error",
+        data: [],
+      });
+    }
+    if (batch === "Not Found") {
+      return res.status(404).send({
+        status: "error",
+        message: "Batch Not Found",
+        data: [],
+      });
+    }
+    return res.status(200).send({
+      status: "success",
+      message: "Badge Succesfully Retrieved",
+      data: batch,
+    });
+  } catch (error) {
+    return res.status(500).send({
+      status: "error",
+      message: "Server Error",
+      data: [],
+    });
+  }
+};
+
 const batchesController = {
   addBatch,
   getAllBatches,
@@ -285,6 +325,7 @@ const batchesController = {
   deleteBatchById,
   addMentor,
   addParticipant,
+  getBadgeByBatchId
 };
 
 export default batchesController;
