@@ -13,12 +13,20 @@ const login = async (req, res) => {
 
     //cek email
     const result = await usersService.getUserByEmail(payload.email);
-    if (!result) {
-      return "Not Found";
+    if (result === "Not Found") {
+      return res.status(404).send({
+        status: "error",
+        message: "User Not Found",
+        data: [],
+      });
     }
     const match = await bcrypt.compare(payload.password, result.userPassword);
     if (!match) {
-      return "Incorrect password";
+      return res.status(400).send({
+        status: "error",
+        message: "Incorrect Password",
+        data: [],
+      });
     }
     const userEntity = {
       userId: result.userId,
@@ -29,20 +37,7 @@ const login = async (req, res) => {
       userName: result.userName,
     };
     const token = usersService.createJWT(userEntity);
-    if (token === "Not Found") {
-      return res.status(404).send({
-        status: "error",
-        message: "User Not Found",
-        data: [],
-      });
-    }
-    if (result === "Incorrect Password") {
-      return res.status(400).send({
-        status: "error",
-        message: "Incorrect Password",
-        data: [],
-      });
-    }
+
     if (result === "Server Error") {
       return res
         .status(500)
