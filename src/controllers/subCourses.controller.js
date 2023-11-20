@@ -103,7 +103,9 @@ const updateSubCourseById = async (req, res) => {
         payload.subCourseName ||
         payload.subCourseMaterial ||
         payload.subCourseType ||
-        payload.courseId
+        payload.courseId ||
+        payload.openDate ||
+        payload.closeDate
       )
     ) {
       return res.status(400).send({

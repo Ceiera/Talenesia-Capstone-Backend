@@ -3,12 +3,16 @@ import { nanoid } from "nanoid";
 
 const addSubCourse = async (subCourse) => {
   try {
+    const futureDate = new Date(currentDate);
+    const DefaultCloseDate = futureDate.setFullYear(currentDate.getFullYear() + 1);
     const newSubCourse = new SubCoursesModel({
       subCourseId: nanoid(12),
       subCourseName: subCourse.subCourseName,
       subCourseMaterial: subCourse.subCourseMaterial,
       subCourseType: subCourse.subCourseType,
       courseId: subCourse.courseId,
+      openDate: subCourse.openDate || Date.now(),
+      closeDate: subCourse.closeDate || DefaultCloseDate,
       createdAt: Date.now(),
       updatedAt: Date.now(),
     });
@@ -50,11 +54,15 @@ const updateSubCourseById = async (id, subCourse) => {
     if (!findSubCourseById) {
       return "Not Found";
     }
+    const futureDate = new Date(currentDate);
+    const DefaultCloseDate = futureDate.setFullYear(currentDate.getFullYear() + 1);
     const payload = {
       subCourseName: subCourse.subCourseName,
       subCourseMaterial: subCourse.subCourseMaterial,
       subCourseType: subCourse.subCourseType,
       courseId: subCourse.courseId,
+      openDate: subCourse.openDate,
+      closeDate: subCourse.closeDate
     };
     payload.updatedAt = Date.now();
     const updatedSubCourse = await SubCoursesModel.findOneAndUpdate(

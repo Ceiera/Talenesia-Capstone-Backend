@@ -21,6 +21,12 @@ const subCourseSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  openDate: {
+    type: Date,
+  },
+  closeDate: {
+    type: Date,
+  },
   createdAt: {
     type: Date,
   },
