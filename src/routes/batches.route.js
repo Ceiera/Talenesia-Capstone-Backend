@@ -6,7 +6,7 @@ batchesRouter.post("/", batchesController.addBatch);
 
 batchesRouter.get("/", batchesController.getAllBatches);
 
-batchesRouter.get("/:batchId/badges", batchesController.getBadgeByBatchId);
+batchesRouter.get("/:batchId/userbadges", batchesController.getBadgeByBatchId);
 
 batchesRouter.get("/:batchId", batchesController.getBatchById);
 
