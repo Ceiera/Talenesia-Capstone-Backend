@@ -3,8 +3,10 @@ import { nanoid } from "nanoid";
 
 const addSubCourse = async (subCourse) => {
   try {
-    const futureDate = new Date(Date.now());
-    const DefaultCloseDate = futureDate.setFullYear(currentDate.getFullYear() + 1);
+    let currentDate = new Date();
+
+    // Add 1 year
+    const futureDate = currentDate.setFullYear(currentDate.getFullYear() + 1);
     const newSubCourse = new SubCoursesModel({
       subCourseId: nanoid(12),
       subCourseName: subCourse.subCourseName,
@@ -12,13 +14,14 @@ const addSubCourse = async (subCourse) => {
       subCourseType: subCourse.subCourseType,
       courseId: subCourse.courseId,
       openDate: subCourse.openDate || Date.now(),
-      closeDate: subCourse.closeDate || DefaultCloseDate,
+      closeDate: subCourse.closeDate || futureDate,
       createdAt: Date.now(),
       updatedAt: Date.now(),
     });
     const addedSubCourse = await newSubCourse.save();
     return addedSubCourse;
   } catch (error) {
+    console.log(error)
     return "Server Error";
   }
 };
