@@ -317,7 +317,7 @@ const getBadgeByBatchId = async (req, res) => {
   }
 };
 
-getAllParticipantsById = async (req, res) => {
+const getAllParticipantsById = async (req, res) => {
   try {
     const id = req.params.batchId;
     if (!id) {
@@ -357,7 +357,7 @@ getAllParticipantsById = async (req, res) => {
   }
 };
 
-getAllMentorsById = async (req, res) => {
+const getAllMentorsById = async (req, res) => {
   try {
     const id = req.params.batchId;
     if (!id) {
