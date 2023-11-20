@@ -3,7 +3,7 @@ import { nanoid } from "nanoid";
 
 const addSubCourse = async (subCourse) => {
   try {
-    const futureDate = new Date(currentDate);
+    const futureDate = new Date(Date.now());
     const DefaultCloseDate = futureDate.setFullYear(currentDate.getFullYear() + 1);
     const newSubCourse = new SubCoursesModel({
       subCourseId: nanoid(12),
