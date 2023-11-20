@@ -342,7 +342,7 @@ const getAllParticipantsById = async (req, res) => {
         data: [],
       });
     }
-    const participants = batch.participant;
+    const participants = await batch.participant;
     return res.status(200).send({
       status: "success",
       message: "Participants Succesfully Retrieved",
@@ -382,7 +382,7 @@ const getAllMentorsById = async (req, res) => {
         data: [],
       });
     }
-    const mentors = batch.mentor;
+    const mentors = await batch.mentor;
     return res.status(200).send({
       status: "success",
       message: "Mentors Succesfully Retrieved",
