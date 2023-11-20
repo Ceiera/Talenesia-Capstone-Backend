@@ -317,6 +317,87 @@ const getBadgeByBatchId = async (req, res) => {
   }
 };
 
+getAllParticipantsById = async (req, res) => {
+  try {
+    const id = req.params.batchId;
+    if (!id) {
+      return res.status(400).send({
+        status: "error",
+        message: "Missing BatchId params",
+        data: [],
+      });
+    }
+    const batch = await batchesService.getBatchById(id);
+    if (batch === "Server Error") {
+      return res.status(500).send({
+        status: "error",
+        message: "Server Error",
+        data: [],
+      });
+    }
+    if (batch === "Not Found") {
+      return res.status(404).send({
+        status: "error",
+        message: "Batch Not Found",
+        data: [],
+      });
+    }
+    const participants = batch.participants;
+    return res.status(200).send({
+      status: "success",
+      message: "Participants Succesfully Retrieved",
+      data: participants,
+    });
+  } catch (error) {
+    return res.status(500).send({
+      status: "error",
+      message: "Server Error",
+      data: [],
+    });
+  }
+};
+
+
+getAllMentorsById = async (req, res) => {
+  try {
+    const id = req.params.batchId;
+    if (!id) {
+      return res.status(400).send({
+        status: "error",
+        message: "Missing BatchId params",
+        data: [],
+      });
+    }
+    const batch = await batchesService.getBatchById(id);
+    if (batch === "Server Error") {
+      return res.status(500).send({
+        status: "error",
+        message: "Server Error",
+        data: [],
+      });
+    }
+    if (batch === "Not Found") {
+      return res.status(404).send({
+        status: "error",
+        message: "Batch Not Found",
+        data: [],
+      });
+    }
+    const mentors = batch.mentors;
+    return res.status(200).send({
+      status: "success",
+      message: "Mentors Succesfully Retrieved",
+      data: mentors,
+    });
+  } catch (error) {
+    return res.status(500).send({
+      status: "error",
+      message: "Server Error",
+      data: [],
+    });
+  }
+};
+
 const batchesController = {
   addBatch,
   getAllBatches,
@@ -325,7 +406,9 @@ const batchesController = {
   deleteBatchById,
   addMentor,
   addParticipant,
-  getBadgeByBatchId
+  getBadgeByBatchId,
+  getAllParticipantsById,
+  getAllMentorsById,
 };
 
 export default batchesController;

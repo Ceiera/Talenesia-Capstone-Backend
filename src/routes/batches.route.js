@@ -14,7 +14,11 @@ batchesRouter.patch("/:batchId", batchesController.updateBatchById);
 
 batchesRouter.delete("/:batchId", batchesController.deleteBatchById);
 
+batchesRouter.get("/:batchId/participants", batchesController.getAllParticipants);
+
 batchesRouter.post("/:batchId/participants", batchesController.addParticipant);
+
+batchesRouter.get("/:batchId/mentors", batchesController.getAllMentors);
 
 batchesRouter.post("/:batchId/mentors", batchesController.addMentor);
 
