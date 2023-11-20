@@ -84,7 +84,9 @@ const getUserByUserId = async (userId) => {
 
 const getUserByFullname = async (fullname) => {
   try {
-    const user = await UsersModel.find({ userFullName: { $regex: fullname, $options: "i"} });
+    const user = await UsersModel.find({
+      userFullName: { $regex: fullname, $options: "i" },
+    });
     return user;
   } catch (error) {
     return "Server Error";
@@ -110,7 +112,7 @@ const updateUserById = async (userId, user) => {
   } catch (error) {
     return "Server Error";
   }
-}
+};
 const deleteUserById = async (userId) => {
   try {
     const deletedUser = await UsersModel.deleteOne({ userId: userId });
@@ -121,7 +123,7 @@ const deleteUserById = async (userId) => {
   } catch (error) {
     return "Server Error";
   }
-}
+};
 
 const usersService = {
   findByEmail,
@@ -133,7 +135,7 @@ const usersService = {
   getUserByUserId,
   getUserByFullname,
   updateUserById,
-  deleteUserById
+  deleteUserById,
 };
 
 export default usersService;

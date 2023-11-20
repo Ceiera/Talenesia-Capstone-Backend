@@ -29,8 +29,6 @@ const userProgressSchema = new mongoose.Schema({
   },
 });
 
-const UserProgressModel = mongoose.model(
-  "userprogress", userProgressSchema
-)
+const UserProgressModel = mongoose.model("userprogress", userProgressSchema);
 
-export default UserProgressModel
+export default UserProgressModel;

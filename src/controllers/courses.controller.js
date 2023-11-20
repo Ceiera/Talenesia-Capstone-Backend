@@ -190,7 +190,7 @@ const deleteCourseById = async (req, res) => {
       status: "success",
       message: "Course Deleted",
       data: [],
-    })
+    });
   } catch (error) {
     return res.status(500).send({
       status: "error",
@@ -198,14 +198,14 @@ const deleteCourseById = async (req, res) => {
       data: [],
     });
   }
-}
+};
 
 const coursesController = {
   addCourse,
   getAllCourses,
   getCourseById,
   updateCourseById,
-  deleteCourseById
-}
+  deleteCourseById,
+};
 
 export default coursesController;

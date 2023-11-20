@@ -51,7 +51,7 @@ const getUserLibraryByUserId = async (id) => {
         newUserLibrary.infoBatches.push(find);
       }
     }
-    return newUserLibrary; 
+    return newUserLibrary;
   } catch (error) {
     console.log(error);
     return "Server Error";

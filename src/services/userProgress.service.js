@@ -164,8 +164,7 @@ const getByBatchIdandSubCourseId = async (batchId, subCourseId) => {
   } catch (error) {
     return "Server Error";
   }
-}
-
+};
 
 const userProgressService = {
   addUserProgress,

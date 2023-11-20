@@ -12,4 +12,3 @@ authsRouter.get("/", authMiddleware.verifyTokenUser, async (req, res) => {
 });
 
 export default authsRouter;
-  

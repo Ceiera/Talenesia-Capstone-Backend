@@ -388,7 +388,7 @@ const getUserProgress = async (req, res) => {
     const userProgress = await userProgressService.getByBatchIdAndUserId(
       userId,
       batchId
-    )
+    );
     if (userProgress === "Not Found") {
       return res.status(404).send({
         status: "error",
@@ -406,8 +406,8 @@ const getUserProgress = async (req, res) => {
     return res.status(200).send({
       status: "success",
       message: "User Progress Succesfully Retrieved",
-      data: userProgress
-    })
+      data: userProgress,
+    });
   } catch (error) {
     return res.status(500).send({
       status: "error",
@@ -415,7 +415,7 @@ const getUserProgress = async (req, res) => {
       data: [],
     });
   }
-}
+};
 
 const getUserSubmission = async (req, res) => {
   try {
@@ -431,7 +431,7 @@ const getUserSubmission = async (req, res) => {
     const userSubmission = await userSubmissionsService.getByBatchIdAndUserId(
       userId,
       batchId
-    )
+    );
     if (userSubmission === "Not Found") {
       return res.status(404).send({
         status: "error",
@@ -449,8 +449,8 @@ const getUserSubmission = async (req, res) => {
     return res.status(200).send({
       status: "success",
       message: "User Submission Succesfully Retrieved",
-      data: userSubmission
-    })
+      data: userSubmission,
+    });
   } catch (error) {
     return res.status(500).send({
       status: "error",
@@ -458,7 +458,7 @@ const getUserSubmission = async (req, res) => {
       data: [],
     });
   }
-}
+};
 
 const usersController = {
   addUser,
@@ -472,7 +472,7 @@ const usersController = {
   getUserLibraries,
   getUserBadges,
   getUserSubmission,
-  getUserProgress
+  getUserProgress,
 };
 
 export default usersController;

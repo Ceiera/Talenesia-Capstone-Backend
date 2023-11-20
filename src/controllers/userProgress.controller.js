@@ -22,7 +22,7 @@ const addUserProgress = async (req, res) => {
       status: "success",
       message: "User Progress Succesfully Created",
       data: userProgress,
-    })
+    });
   } catch (error) {
     return res.status(500).send({
       status: "error",
@@ -113,10 +113,8 @@ const updateUserProgressById = async (req, res) => {
         data: [],
       });
     }
-    const updatedUserProgress = await userProgressService.updateUserProgressById(
-      id,
-      payload
-    );
+    const updatedUserProgress =
+      await userProgressService.updateUserProgressById(id, payload);
     if (updatedUserProgress === "Server Error") {
       return res.status(500).send({
         status: "error",

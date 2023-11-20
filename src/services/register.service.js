@@ -14,10 +14,10 @@ const registerUser = async (user) => {
       updatedAt: Date.now(),
     });
     const newUserLibrary = await userLibrariesService.addUserLibrary({
-      userId: newUser.userId
+      userId: newUser.userId,
     });
     const newUserBadges = await userbadgesService.addUserBadge({
-      userId: newUser.userId
+      userId: newUser.userId,
     });
     return newUser;
   } catch (error) {

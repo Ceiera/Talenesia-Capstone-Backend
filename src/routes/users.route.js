@@ -46,6 +46,5 @@ router.get(
   usersController.getUserSubmission
 );
 
-
 const usersRoute = router;
 export default usersRoute;

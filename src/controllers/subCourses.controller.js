@@ -7,7 +7,7 @@ const addSubCourse = async (req, res) => {
       !(
         payload.subCourseName ||
         payload.subCourseMaterial ||
-        payload.subCourseType||
+        payload.subCourseType ||
         payload.courseId
       )
     ) {
@@ -29,7 +29,7 @@ const addSubCourse = async (req, res) => {
       data: subCourse,
     });
   } catch (error) {
-    console.log(error)
+    console.log(error);
     return res.status(500).send({
       status: "error",
       message: "Server Error",
@@ -96,7 +96,7 @@ const updateSubCourseById = async (req, res) => {
         status: "error",
         message: "Missing Body",
         data: [],
-      })
+      });
     }
     const payload = req.body;
     if (
@@ -190,7 +190,7 @@ const getBadgesBySubCourseId = async (req, res) => {
         status: "error",
         message: "Missing Body",
         data: [],
-      })
+      });
     }
     const badges = await userBadgesService.getUserBadgeBySubCourseId(id);
     if (badges === "Server Error") {
@@ -209,11 +209,9 @@ const getBadgesBySubCourseId = async (req, res) => {
       status: "success",
       message: "Badges Succesfully Retrieved",
       data: badges,
-    })
-  } catch (error) {
-    
-  }
-}
+    });
+  } catch (error) {}
+};
 
 const subCoursesController = {
   addSubCourse,
@@ -221,7 +219,7 @@ const subCoursesController = {
   getSubCourseById,
   updateSubCourseById,
   deleteSubCourseById,
-  getBadgesBySubCourseId
-}
+  getBadgesBySubCourseId,
+};
 
 export default subCoursesController;

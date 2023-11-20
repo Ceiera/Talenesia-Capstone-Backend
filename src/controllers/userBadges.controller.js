@@ -2,7 +2,14 @@ import userBadgesService from "../services/userBadges.service.js";
 const addUserBadge = async (req, res) => {
   try {
     const payload = req.body;
-    if (!(payload.userId||payload.badgeId||payload.subCourseId||payload.batchId)) {
+    if (
+      !(
+        payload.userId ||
+        payload.badgeId ||
+        payload.subCourseId ||
+        payload.batchId
+      )
+    ) {
       return res.status(400).send({
         status: "error",
         message: "Missing Body",

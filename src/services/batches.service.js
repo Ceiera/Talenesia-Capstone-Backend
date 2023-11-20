@@ -46,14 +46,15 @@ const getBatchById = async (id) => {
     const batch = await BatchesModel.aggregate([
       {
         $match: { batchId: id },
-      },{
+      },
+      {
         $lookup: {
           from: "learningtracks",
           localField: "learningTrackId",
           foreignField: "learningTrackId",
           as: "learningTrackDetail",
         },
-      }
+      },
     ]);
     if (!batch) {
       return "Not Found";
@@ -84,11 +85,11 @@ const addParticipant = async (id, participant) => {
       { new: true }
     );
 
-    //selesai add, 
+    //selesai add,
     const updatedUserLibrary = await userLibrariesService.addBatchIdByUserId(
       participant.userId,
       id
-    )
+    );
     console.log(updatedUserLibrary);
     return updateBatch;
   } catch (error) {
@@ -117,7 +118,7 @@ const addMentor = async (id, mentor) => {
     const updatedUserLibrary = await userLibrariesService.addBatchIdByUserId(
       mentor.userId,
       id
-    )
+    );
     return updateBatch;
   } catch (error) {
     console.log(error);

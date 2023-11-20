@@ -28,7 +28,7 @@ const registerUser = async (req, res) => {
       data: user,
     });
   } catch (error) {
-    console.log(error)
+    console.log(error);
     return res.status(500).send({
       status: "error",
       message: "Server Error",

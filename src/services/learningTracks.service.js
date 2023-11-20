@@ -40,13 +40,13 @@ const getLearningTrackById = async (id) => {
           foreignField: "learningTrackId",
           pipeline: [
             {
-              $lookup:{
-                from:"subcourses",
-                localField:"courseId",
-                foreignField:"courseId",
-                as:"subCourseDetail"
-              }
-            }
+              $lookup: {
+                from: "subcourses",
+                localField: "courseId",
+                foreignField: "courseId",
+                as: "subCourseDetail",
+              },
+            },
           ],
           as: "courseDetail",
         },

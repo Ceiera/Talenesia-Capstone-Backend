@@ -21,7 +21,7 @@ const addSubCourse = async (subCourse) => {
     const addedSubCourse = await newSubCourse.save();
     return addedSubCourse;
   } catch (error) {
-    console.log(error)
+    console.log(error);
     return "Server Error";
   }
 };
@@ -58,14 +58,16 @@ const updateSubCourseById = async (id, subCourse) => {
       return "Not Found";
     }
     const futureDate = new Date(currentDate);
-    const DefaultCloseDate = futureDate.setFullYear(currentDate.getFullYear() + 1);
+    const DefaultCloseDate = futureDate.setFullYear(
+      currentDate.getFullYear() + 1
+    );
     const payload = {
       subCourseName: subCourse.subCourseName,
       subCourseMaterial: subCourse.subCourseMaterial,
       subCourseType: subCourse.subCourseType,
       courseId: subCourse.courseId,
       openDate: subCourse.openDate,
-      closeDate: subCourse.closeDate
+      closeDate: subCourse.closeDate,
     };
     payload.updatedAt = Date.now();
     const updatedSubCourse = await SubCoursesModel.findOneAndUpdate(

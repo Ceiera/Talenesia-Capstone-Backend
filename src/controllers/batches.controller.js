@@ -357,7 +357,6 @@ getAllParticipantsById = async (req, res) => {
   }
 };
 
-
 getAllMentorsById = async (req, res) => {
   try {
     const id = req.params.batchId;

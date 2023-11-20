@@ -27,7 +27,7 @@ const getAllUserSubmissions = async () => {
   } catch (error) {
     return "Server Error";
   }
-}
+};
 
 const getUserSubmissionById = async (id) => {
   try {
@@ -41,7 +41,7 @@ const getUserSubmissionById = async (id) => {
   } catch (error) {
     return "Server Error";
   }
-}
+};
 
 const updateUserSubmissionById = async (id, userSubmission) => {
   try {
@@ -73,34 +73,34 @@ const deleteUserSubmissionById = async (id) => {
     }
     const deletedUserSubmission = await UserSubmissionModel.findOneAndDelete({
       userSubmissionId: id,
-    })
+    });
     return deletedUserSubmission;
   } catch (error) {
     return "Server Error";
   }
-}
+};
 
 const getByBatchIdAndUserId = async (userId, batchId) => {
   try {
     const allUserSubmissions = await UserSubmissionModel.agregate([
-        {
-          $match: {
-            userId: userId,
-            batchId: batchId,
-          },
-          $lookup: {
-            from: "subcourses",
-            localField: "subCourseId",
-            foreignField: "subCourseId",
-            as: "subcoursesdetail",
-          },
+      {
+        $match: {
+          userId: userId,
+          batchId: batchId,
         },
-      ]);
+        $lookup: {
+          from: "subcourses",
+          localField: "subCourseId",
+          foreignField: "subCourseId",
+          as: "subcoursesdetail",
+        },
+      },
+    ]);
     return allUserSubmissions;
   } catch (error) {
     return "Server Error";
   }
-}
+};
 
 const userSubmissionsService = {
   addUserSubmission,
@@ -108,7 +108,7 @@ const userSubmissionsService = {
   getUserSubmissionById,
   updateUserSubmissionById,
   deleteUserSubmissionById,
-  getByBatchIdAndUserId
+  getByBatchIdAndUserId,
 };
 
 export default userSubmissionsService;

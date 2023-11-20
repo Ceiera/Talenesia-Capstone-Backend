@@ -7,8 +7,14 @@ userLibrariesRouter.post("/", userLibrariesController.addUserLibrary);
 
 userLibrariesRouter.get("/", userLibrariesController.getAllUserLibraries);
 
-userLibrariesRouter.get("/:userLibraryId", userLibrariesController.getUserLibraryById);
+userLibrariesRouter.get(
+  "/:userLibraryId",
+  userLibrariesController.getUserLibraryById
+);
 
-userLibrariesRouter.delete("/:userLibraryId", userLibrariesController.deleteUserLibraryById);
+userLibrariesRouter.delete(
+  "/:userLibraryId",
+  userLibrariesController.deleteUserLibraryById
+);
 
 export default userLibrariesRouter;
