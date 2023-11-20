@@ -54,9 +54,9 @@ const getUserBadgeByUserId = async (id) => {
           localField: "badgeId",
           foreignField: "badgeId",
           as: "detailbadge",
-        }
-      }
-    ])
+        },
+      },
+    ]);
     if (!userBadge) {
       return "Not Found";
     }
@@ -78,15 +78,15 @@ const getUserBadgeBySubCourseId = async (id) => {
           localField: "badgeId",
           foreignField: "badgeId",
           as: "detailbadge",
-        }
-      }
-    ])
+        },
+      },
+    ]);
     if (!userBadge) {
       return "Not Found";
     }
     return userBadge;
   } catch (error) {
-    console.log(error)
+    console.log(error);
     return "Server Error";
   }
 };
@@ -103,15 +103,45 @@ const getUserBadgeByBatchId = async (id) => {
           localField: "badgeId",
           foreignField: "badgeId",
           as: "detailbadge",
-        }
-      }
-    ])
+        },
+      },
+      {
+        $lookup: {
+          from: "users",
+          localField: "userId",
+          foreignField: "userId",
+          pipeline: [
+            {
+              $project: {
+                _id: 0,
+                userId: 1,
+                userFullName: 1,
+                userRole: 1,
+                userEmail: 1,
+              },
+            },
+          ],
+          as: "userdetail",
+        },
+      },
+      {
+        $group: {
+          _id: "$userdetail.userId",
+          detailUser: {
+            $first: { $arrayElemAt: ["$userdetail", 0] },
+          },
+          listBadges: {
+            $push: { $arrayElemAt: ["$detailbadge", 0] },
+          },
+        },
+      },
+    ]);
     if (!userBadge) {
       return "Not Found";
     }
     return userBadge;
   } catch (error) {
-    console.log(error)
+    console.log(error);
     return "Server Error";
   }
 };
@@ -142,13 +172,12 @@ const deleteUserBadgeById = async (id) => {
     }
     const deletedUserBadge = await UserBadgesModel.findOneAndDelete({
       userBadgesId: id,
-    })
+    });
     return deletedUserBadge;
   } catch (error) {
     return "Server Error";
   }
 };
-
 
 const userBadgesService = {
   addUserBadge,
@@ -158,7 +187,7 @@ const userBadgesService = {
   addBadge,
   deleteUserBadgeById,
   getUserBadgeBySubCourseId,
-  getUserBadgeByBatchId
+  getUserBadgeByBatchId,
 };
 
 export default userBadgesService;
