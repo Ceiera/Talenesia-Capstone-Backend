@@ -152,7 +152,7 @@ const deleteBadgeById = async (req, res) => {
         data: [],
       });
     }
-    const deletedBadge = await badgesController.deleteBadgeById(id);
+    const deletedBadge = await badgesService.deleteBadgeById(id);
     if (deletedBadge === "Server Error") {
       return res
         .status(500)

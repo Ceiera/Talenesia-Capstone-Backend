@@ -7,6 +7,11 @@ userBadgesRouter.post("/", userBadgesController.addUserBadge);
 
 userBadgesRouter.get("/", userBadgesController.getAllUserBadges);
 
+userBadgesRouter.get(
+  "/:userBadgeId/filters",
+  userBadgesController.getUserBadgesByBatchIdandSubCourseId
+);
+
 userBadgesRouter.get("/:userBadgeId", userBadgesController.getUserBadgeById);
 
 userBadgesRouter.delete(

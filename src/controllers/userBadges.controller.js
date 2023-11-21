@@ -132,6 +132,40 @@ const deleteUserBadgeById = async (req, res) => {
   }
 };
 
+const getUserBadgesByBatchIdandSubCourseId = async (req, res) => {
+  try {
+    const batchId = req.query.batchId;
+    const subCourseId = req.query.subCourseId;
+    if (!(batchId && subCourseId)) {
+      return res.status(400).send({
+        status: "error",
+        message: "Missing Params",
+        data: [],
+      });
+    }
+    const userBadges = await userBadgesService.getUserBadgesByBatchIdandSubCourseId(
+      batchId,
+      subCourseId
+    );
+    if (userBadges === "Server Error") {
+      return res
+        .status(500)
+        .send({ status: "error", message: "Server Error", data: [] });
+    }
+    return res.status(200).send({
+      status: "success",
+      message: "User Badges Succesfully Retrieved",
+      data: userBadges,
+    });
+  } catch (error) {
+    return res.status(500).send({
+      status: "error",
+      message: "Server Error",
+      data: [],
+    });
+}
+};
+
 const userBadgesController = {
   addUserBadge,
   getAllUserBadges,

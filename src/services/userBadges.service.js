@@ -146,6 +146,61 @@ const getUserBadgeByBatchId = async (id) => {
   }
 };
 
+const getUserBadgesByBatchIdandSubCourseId = async (id) => {
+  try {
+    const userBadge = await UserBadgesModel.aggregate([
+      {
+        $match: { batchId: id, subCourseId: id },
+      },
+      {
+        $lookup: {
+          from: "badges",
+          localField: "badgeId",
+          foreignField: "badgeId",
+          as: "detailbadge",
+        },
+      },
+      {
+        $lookup: {
+          from: "users",
+          localField: "userId",
+          foreignField: "userId",
+          pipeline: [
+            {
+              $project: {
+                _id: 0,
+                userId: 1,
+                userFullName: 1,
+                userRole: 1,
+                userEmail: 1,
+              },
+            },
+          ],
+          as: "userdetail",
+        },
+      },
+      {
+        $group: {
+          _id: "$userdetail.userId",
+          detailUser: {
+            $first: { $arrayElemAt: ["$userdetail", 0] },
+          },
+          listBadges: {
+            $first: { $arrayElemAt: ["$detailbadge", 0] },
+          },
+        },
+      },
+    ]);
+    if (userBadge.length < 1) {
+      return "Not Found";
+    }
+    return userBadge;
+  } catch (error) {
+    console.log(error);
+    return "Server Error";
+  }
+};
+
 const addBadge = async (id, badge) => {
   try {
     const userBadge = await getUserBadgeByUserId(id);
@@ -188,6 +243,7 @@ const userBadgesService = {
   deleteUserBadgeById,
   getUserBadgeBySubCourseId,
   getUserBadgeByBatchId,
+  getUserBadgesByBatchIdandSubCourseId
 };
 
 export default userBadgesService;

@@ -102,7 +102,7 @@ const deleteUserLibraryById = async (req, res) => {
       });
     }
     const deletedUserLibrary =
-      await userLibrariesController.userLibrariesService(id);
+      await userLibrariesService.deleteUserLibraryById(id);
     if (deletedUserLibrary === "Server Error") {
       return res
         .status(500)
