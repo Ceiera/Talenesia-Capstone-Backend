@@ -52,7 +52,7 @@ const getLearningTrackById = async (id) => {
         },
       },
     ]);
-    if (!learningTrack) {
+    if (learningTrack.length < 1) {
       return "Not Found";
     }
     return learningTrack;

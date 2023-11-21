@@ -56,7 +56,7 @@ const getBatchById = async (id) => {
         },
       },
     ]);
-    if (!batch) {
+    if (batch.length < 1) {
       return "Not Found";
     }
     return batch;

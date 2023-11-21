@@ -105,9 +105,6 @@ const getUserProgressByBatchId = async (batchId) => {
         },
       },
     ]);
-    if (!allUserProgress) {
-      return "Not Found";
-    }
     return allUserProgress;
   } catch (error) {
     return "Server Error";
@@ -131,9 +128,6 @@ const getByUserIdandBatchId = async (userId, batchId) => {
         },
       },
     ]);
-    if (!allUserProgress) {
-      return "Not Found";
-    }
     return allUserProgress;
   } catch (error) {
     return "Server Error";
