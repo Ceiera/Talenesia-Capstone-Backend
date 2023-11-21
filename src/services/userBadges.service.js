@@ -234,6 +234,32 @@ const deleteUserBadgeById = async (id) => {
   }
 };
 
+const updateUserBadgeById = async (id, userBadge) => {
+  try {
+    const findUserBadge = await UserBadgesModel.findOne({
+      userBadgesId: id,
+    });
+    if (!findUserBadge) {
+      return "Not Found";
+    }
+    const payload = {
+      userId: userBadge.userId,
+      badgeId: userBadge.badgeId,
+      subCourseId: userBadge.subCourseId,
+      batchId: userBadge.batchId,
+      updatedAt: Date.now(),
+    };
+    const updatedUserBadge = await UserBadgesModel.findOneAndUpdate(
+      { userBadgesId: id },
+      payload,
+      { new: true }
+    );
+    return updatedUserBadge;
+  } catch (error) {
+    return "Server Error";
+  }
+};
+
 const userBadgesService = {
   addUserBadge,
   getAllUserBadges,
@@ -243,7 +269,8 @@ const userBadgesService = {
   deleteUserBadgeById,
   getUserBadgeBySubCourseId,
   getUserBadgeByBatchId,
-  getUserBadgesByBatchIdandSubCourseId
+  getUserBadgesByBatchIdandSubCourseId,
+  updateUserBadgeById,
 };
 
 export default userBadgesService;

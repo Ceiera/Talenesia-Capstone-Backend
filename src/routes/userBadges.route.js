@@ -19,4 +19,9 @@ userBadgesRouter.delete(
   userBadgesController.deleteUserBadgeById
 );
 
+userBadgesRouter.patch(
+  "/:userBadgeId",
+  userBadgesController.updateUserBadgeById
+)
+
 export default userBadgesRouter;

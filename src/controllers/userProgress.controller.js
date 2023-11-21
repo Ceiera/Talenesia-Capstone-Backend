@@ -183,12 +183,57 @@ const deleteUserProgressById = async (req, res) => {
   }
 };
 
+const deleteBy3Params = async (req, res) => {
+  try {
+    const payload = req.query;
+    if (!(payload.userId && payload.batchId && payload.subCourseId)) {
+      return res.status(400).send({
+        status: "error",
+        message: "Missing Body",
+        data: [],
+      });
+    }
+    const deletedUserProgress = await userProgressService.deleteBy3Params(
+      payload.userId,
+      payload.batchId,
+      payload.subCourseId
+    );
+    if (deletedUserProgress === "Server Error") {
+      return res.status(500).send({
+        status: "error",
+        message: "Server Error",
+        data: [],
+      });
+    }
+    if (deletedUserProgress === "Not Found") {
+      return res.status(404).send({
+        status: "error",
+        message: "User Progress Not Found",
+        data: [],
+      });
+    }
+    return res.status(200).send({
+      status: "success",
+      message: "User Progress Succesfully Deleted",
+      data: [],
+    });
+  } catch (error) {
+    console.log(error)
+    return res.status(500).send({
+      status: "error",
+      message: "Server Error",
+      data: [],
+    });
+  }
+};
+
 const userProgressController = {
   addUserProgress,
   getAllUserProgress,
   getUserProgressById,
   updateUserProgressById,
   deleteUserProgressById,
+  deleteBy3Params,
 };
 
 export default userProgressController;

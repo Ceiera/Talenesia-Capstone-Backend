@@ -13,6 +13,12 @@ userProgressRouter.patch(
   "/:userProgressId",
   userProgressController.updateUserProgressById
 );
+
+userProgressRouter.delete(
+  "/filter",
+  userProgressController.deleteBy3Params
+);
+
 userProgressRouter.delete(
   "/:userProgressId",
   userProgressController.deleteUserProgressById

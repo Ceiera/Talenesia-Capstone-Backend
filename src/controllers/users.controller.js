@@ -375,7 +375,7 @@ const getUserBadges = async (req, res) => {
   }
 };
 
-const getUserProgress = async (req, res) => {
+const getUserProgressByBatchId = async (req, res) => {
   try {
     const userId = req.auth.userId;
     const batchId = req.query.batchId;
@@ -386,17 +386,10 @@ const getUserProgress = async (req, res) => {
         data: [],
       });
     }
-    const userProgress = await userProgressService.getByBatchIdAndUserId(
+    const userProgress = await userProgressService.getByUserIdandBatchId(
       userId,
       batchId
     );
-    if (userProgress === "Not Found") {
-      return res.status(404).send({
-        status: "error",
-        message: "User Progress Not Found",
-        data: [],
-      });
-    }
     if (userProgress === "Server Error") {
       return res.status(500).send({
         status: "error",
@@ -512,7 +505,7 @@ const usersController = {
   getUserLibraries,
   getUserBadges,
   getUserSubmission,
-  getUserProgress,
+  getUserProgressByBatchId,
   getUserBadgesByUserId
 };
 

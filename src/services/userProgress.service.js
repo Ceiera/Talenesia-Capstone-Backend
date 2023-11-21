@@ -3,6 +3,14 @@ import { nanoid } from "nanoid";
 
 const addUserProgress = async (userProgress) => {
   try {
+    const findUserProgress = await UserProgressModel.findOne({
+      userId: userProgress.userId,
+      batchId: userProgress.batchId,
+      subCourseId: userProgress.subCourseId,
+    })
+    if (findUserProgress) {
+      throw new Error ("Server Error");
+    }
     const newUserProgress = new UserProgressModel({
       userProgressId: nanoid(12),
       userId: userProgress.userId,
@@ -81,17 +89,21 @@ const deleteUserProgressById = async (id) => {
 
 const getUserProgressByBatchId = async (batchId) => {
   try {
-    const allUserProgress = await UserProgressModel.agregate([
+    const allUserProgress = await UserProgressModel.aggregate([
       {
         $match: {
           batchId: batchId,
         },
+      },
+      {
         $lookup: {
           from: "subcourses",
           localField: "subCourseId",
           foreignField: "subCourseId",
           as: "subcoursesdetail",
         },
+      },
+      {
         $lookup: {
           from: "user",
           localField: "userId",
@@ -114,12 +126,14 @@ const getUserProgressByBatchId = async (batchId) => {
 //buat cek dari sisi user
 const getByUserIdandBatchId = async (userId, batchId) => {
   try {
-    const allUserProgress = await UserProgressModel.agregate([
+    const allUserProgress = await UserProgressModel.aggregate([
       {
         $match: {
           userId: userId,
           batchId: batchId,
         },
+      },
+      {
         $lookup: {
           from: "subcourses",
           localField: "subCourseId",
@@ -130,19 +144,22 @@ const getByUserIdandBatchId = async (userId, batchId) => {
     ]);
     return allUserProgress;
   } catch (error) {
+    console.log(error);
     return "Server Error";
   }
 };
 
-//buat Absensi
+//buat Absensi page
 const getByBatchIdandSubCourseId = async (batchId, subCourseId) => {
   try {
-    const allUserProgress = await UserProgressModel.agregate([
+    const allUserProgress = await UserProgressModel.aggregate([
       {
         $match: {
           batchId: batchId,
           subCourseId: subCourseId,
         },
+      },
+      {
         $lookup: {
           from: "subcourses",
           localField: "subCourseId",
@@ -160,6 +177,25 @@ const getByBatchIdandSubCourseId = async (batchId, subCourseId) => {
   }
 };
 
+const deleteBy3Params = async (userId, batchId, subCourseId) => {
+  try {
+    const findUserProgress = await UserProgressModel.findOne({
+      userId: userId,
+      batchId: batchId,
+      subCourseId: subCourseId,
+    })
+    if (!findUserProgress) {
+      return "Not Found"
+    }
+    const deletedUserProgress = await UserProgressModel.findOneAndDelete({
+      userProgressId: findUserProgress.userProgressId
+    })
+    return deletedUserProgress
+  } catch (error) {
+    return "Server Error"
+  }
+}
+
 const userProgressService = {
   addUserProgress,
   getAllUserProgress,
@@ -169,6 +205,7 @@ const userProgressService = {
   getByUserIdandBatchId,
   getUserProgressByBatchId,
   getByBatchIdandSubCourseId,
+  deleteBy3Params
 };
 
 export default userProgressService;

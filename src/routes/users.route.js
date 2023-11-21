@@ -28,16 +28,10 @@ router.get(
   usersController.getUserBadges
 );
 
-router.get("/:userId", usersController.getUserByUserId);
-
-router.patch("/:userId", usersController.updateUserById);
-
-router.delete("/:userId", usersController.deleteUserById);
-
 router.get(
   "/userprogress",
   authMiddleware.verifyTokenUser,
-  usersController.getUserProgress
+  usersController.getUserProgressByBatchId
 );
 
 router.get(
@@ -50,6 +44,14 @@ router.get(
   "/userId",
   usersController.getUserBadgesByUserId
 );
+
+router.get("/:userId", usersController.getUserByUserId);
+
+router.patch("/:userId", usersController.updateUserById);
+
+router.delete("/:userId", usersController.deleteUserById);
+
+
 
 const usersRoute = router;
 export default usersRoute;

@@ -167,12 +167,70 @@ const getUserBadgesByBatchIdandSubCourseId = async (req, res) => {
   }
 };
 
+const updateUserBadgeById = async (req, res) => {
+  try {
+    const id = req.params.userBadgeId;
+    if (!id) {
+      return res.status(400).send({
+        status: "error",
+        message: "Missing userBadgeId Params",
+        data: [],
+      });
+    }
+    const payload = req.body;
+    if (
+      !(
+        payload.userId &&
+        payload.badgeId &&
+        payload.subCourseId &&
+        payload.batchId
+      )
+    ) {
+      return res.status(400).send({
+        status: "error",
+        message: "Missing Body",
+        data: [],
+      });
+    }
+    const updatedUserBadge = await userBadgesService.updateUserBadgeById(
+      id,
+      payload
+    );
+    if (updatedUserBadge === "Server Error") {
+      return res.status(500).send({
+        status: "error",
+        message: "Server Error",
+        data: [],
+      });
+    }
+    if (updatedUserBadge === "Not Found") {
+      return res.status(404).send({
+        status: "error",
+        message: "User Badge Not Found",
+        data: [],
+      });
+    }
+    return res.status(200).send({
+      status: "success",
+      message: "User Badge Succesfully Updated",
+      data: updatedUserBadge,
+    });
+  } catch (error) {
+    return res.status(500).send({
+      status: "error",
+      message: "Server Error",
+      data: [],
+    });
+  }
+};
+
 const userBadgesController = {
   addUserBadge,
   getAllUserBadges,
   getUserBadgeById,
   deleteUserBadgeById,
   getUserBadgesByBatchIdandSubCourseId,
+  updateUserBadgeById,
 };
 
 export default userBadgesController;
