@@ -7,9 +7,9 @@ const addUserProgress = async (userProgress) => {
       userId: userProgress.userId,
       batchId: userProgress.batchId,
       subCourseId: userProgress.subCourseId,
-    })
+    });
     if (findUserProgress) {
-      throw new Error ("Server Error");
+      throw new Error("Server Error");
     }
     const newUserProgress = new UserProgressModel({
       userProgressId: nanoid(12),
@@ -183,18 +183,52 @@ const deleteBy3Params = async (userId, batchId, subCourseId) => {
       userId: userId,
       batchId: batchId,
       subCourseId: subCourseId,
-    })
+    });
     if (!findUserProgress) {
-      return "Not Found"
+      return "Not Found";
     }
     const deletedUserProgress = await UserProgressModel.findOneAndDelete({
-      userProgressId: findUserProgress.userProgressId
-    })
-    return deletedUserProgress
+      userProgressId: findUserProgress.userProgressId,
+    });
+    return deletedUserProgress;
   } catch (error) {
-    return "Server Error"
+    return "Server Error";
   }
-}
+};
+
+const getAllUserProgressBy3Params = async (userId, batchId, subCourseId) => {
+  try {
+    const payload = {};
+    if (userId) {
+      payload.userId = userId;
+    }
+    if (batchId) {
+      payload.batchId = batchId;
+    }
+    if (subCourseId) {
+      payload.subCourseId = subCourseId;
+    }
+    const allUserProgress = await UserProgressModel.aggregate([
+      {
+        $match: payload,
+      },
+      {
+        $lookup: {
+          from: "subcourses",
+          localField: "subCourseId",
+          foreignField: "subCourseId",
+          as: "subcoursesdetail",
+        },
+      },
+    ]);
+    if (!allUserProgress) {
+      return "Not Found";
+    }
+    return allUserProgress;
+  } catch (error) {
+    return "Server Error";
+  }
+};
 
 const userProgressService = {
   addUserProgress,
@@ -205,7 +239,8 @@ const userProgressService = {
   getByUserIdandBatchId,
   getUserProgressByBatchId,
   getByBatchIdandSubCourseId,
-  deleteBy3Params
+  deleteBy3Params,
+  getAllUserProgressBy3Params,
 };
 
 export default userProgressService;

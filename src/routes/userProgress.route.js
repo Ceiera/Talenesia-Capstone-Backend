@@ -4,6 +4,9 @@ import express from "express";
 const userProgressRouter = express.Router();
 
 userProgressRouter.post("/", userProgressController.addUserProgress);
+
+userProgressRouter.get("/filter", userProgressController.getAllUserProgressBy3Params);
+
 userProgressRouter.get("/", userProgressController.getAllUserProgress);
 userProgressRouter.get(
   "/:userProgressId",
