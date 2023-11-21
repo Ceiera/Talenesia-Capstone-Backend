@@ -5,9 +5,9 @@ const addSubCourse = async (req, res) => {
     const payload = req.body;
     if (
       !(
-        payload.subCourseName ||
-        payload.subCourseMaterial ||
-        payload.subCourseType ||
+        payload.subCourseName &&
+        payload.subCourseMaterial &&
+        payload.subCourseType &&
         payload.courseId
       )
     ) {
@@ -101,11 +101,11 @@ const updateSubCourseById = async (req, res) => {
     const payload = req.body;
     if (
       !(
-        payload.subCourseName ||
-        payload.subCourseMaterial ||
-        payload.subCourseType ||
-        payload.courseId ||
-        payload.openDate ||
+        payload.subCourseName &&
+        payload.subCourseMaterial &&
+        payload.subCourseType &&
+        payload.courseId &&
+        payload.openDate &&
         payload.closeDate
       )
     ) {

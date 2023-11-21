@@ -9,10 +9,10 @@ const addUser = async (req, res) => {
     const payload = req.body;
     if (
       !(
-        payload.userRole ||
-        payload.userEmail ||
-        payload.userPassword ||
-        payload.userFullName ||
+        payload.userRole &&
+        payload.userEmail &&
+        payload.userPassword &&
+        payload.userFullName &&
         payload.userName
       )
     ) {
@@ -146,6 +146,7 @@ const getUserByUsername = async (req, res) => {
       });
     }
     const user = await usersService.getUserByUsername(username);
+    console.log(user);
     if (user === "Server Error") {
       return res.status(500).send({
         status: "error",
@@ -153,7 +154,7 @@ const getUserByUsername = async (req, res) => {
         data: [],
       });
     }
-    if (!user) {
+    if (user.length == 0) {
       return res.status(404).send({
         status: "error",
         message: "User Not Found",
@@ -226,10 +227,10 @@ const updateUserById = async (req, res) => {
     }
     if (
       !(
-        payload.userRole ||
-        payload.userEmail ||
-        payload.userPassword ||
-        payload.userUsername ||
+        payload.userRole &&
+        payload.userEmail &&
+        payload.userPassword &&
+        payload.userName &&
         payload.userFullName
       )
     ) {
@@ -378,7 +379,7 @@ const getUserProgress = async (req, res) => {
   try {
     const userId = req.auth.userId;
     const batchId = req.query.batchId;
-    if (!userId || !batchId) {
+    if (!userId && !batchId) {
       return res.status(400).send({
         status: "error",
         message: "Missing Params",
@@ -421,7 +422,7 @@ const getUserSubmission = async (req, res) => {
   try {
     const userId = req.auth.userId;
     const batchId = req.query.batchId;
-    if (!userId || !batchId) {
+    if (!userId && !batchId) {
       return res.status(400).send({
         status: "error",
         message: "Missing Params",
@@ -460,6 +461,45 @@ const getUserSubmission = async (req, res) => {
   }
 };
 
+const getUserBadgesByUserId = async (req, res) => {
+  try {
+    const userId = req.body.userId;
+    if (!userId) {
+      return res.status(400).send({
+        status: "error",
+        message: "Missing Params",
+        data: [],
+      });
+    }
+    const userBadges = await userBadgesService.getUserBadgeByUserId(userId);
+    if (userBadges === "Not Found") {
+      return res.status(404).send({
+        status: "error",
+        message: "User Badges Not Found",
+        data: [],
+      });
+    }
+    if (userBadges === "Server Error") {
+      return res.status(500).send({
+        status: "error",
+        message: "Server Error",
+        data: [],
+      });
+    }
+    return res.status(200).send({
+      status: "success",
+      message: "User Badges Succesfully Retrieved",
+      data: userBadges,
+    });
+  } catch (error) {
+    return res.status(500).send({
+      status: "error",
+      message: "Server Error",
+      data: [],
+    });
+  }
+};
+
 const usersController = {
   addUser,
   getAllUsers,
@@ -473,6 +513,7 @@ const usersController = {
   getUserBadges,
   getUserSubmission,
   getUserProgress,
+  getUserBadgesByUserId
 };
 
 export default usersController;

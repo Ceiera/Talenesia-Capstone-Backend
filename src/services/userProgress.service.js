@@ -173,6 +173,7 @@ const userProgressService = {
   updateUserProgressById,
   deleteUserProgressById,
   getByUserIdandBatchId,
+  getUserProgressByBatchId,
   getByBatchIdandSubCourseId,
 };
 

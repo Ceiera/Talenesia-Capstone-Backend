@@ -4,7 +4,7 @@ const addBadge = async (req, res) => {
   try {
     const payload = req.body;
     if (
-      !(payload.badgeName || payload.badgeDescription || payload.badgeValue)
+      !(payload.badgeName && payload.badgeDescription && payload.badgeValue)
     ) {
       return res.status(400).send({
         status: "error",
@@ -107,7 +107,7 @@ const updateBadgeById = async (req, res) => {
     }
     const payload = req.body;
     if (
-      !(payload.badgeName || payload.badgeDescription || payload.badgeValue)
+      !(payload.badgeName && payload.badgeDescription && payload.badgeValue)
     ) {
       return res.status(400).send({
         status: "error",

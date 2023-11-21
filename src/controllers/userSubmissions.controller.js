@@ -5,9 +5,9 @@ const addUserSubmission = async (req, res) => {
     const payload = req.body;
     if (
       !(
-        payload.userId ||
-        payload.batchId ||
-        payload.subCourseId ||
+        payload.userId &&
+        payload.batchId &&
+        payload.subCourseId &&
         payload.link
       )
     ) {
@@ -120,9 +120,9 @@ const updateUserSubmissionById = async (req, res) => {
     const payload = req.body;
     if (
       !(
-        payload.userId ||
-        payload.batchId ||
-        payload.subCourseId ||
+        payload.userId &&
+        payload.batchId &&
+        payload.subCourseId &&
         payload.link
       )
     ) {

@@ -5,10 +5,10 @@ const registerUser = async (req, res) => {
     const payload = req.body;
     if (
       !(
-        payload.userRole ||
-        payload.userEmail ||
-        payload.userPassword ||
-        payload.userFullName ||
+        payload.userRole &&
+        payload.userEmail &&
+        payload.userPassword &&
+        payload.userFullName &&
         payload.userName
       )
     ) {

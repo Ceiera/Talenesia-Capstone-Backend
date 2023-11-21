@@ -6,8 +6,8 @@ const addBatch = async (req, res) => {
     const payload = req.body;
     if (
       !(
-        payload.learningTrackId ||
-        payload.batchName ||
+        payload.learningTrackId &&
+        payload.batchName &&
         payload.batchDescription
       )
     ) {
@@ -109,7 +109,7 @@ const updateBatchById = async (req, res) => {
       });
     }
     const payload = req.body;
-    if (!(payload.batchName || batchDescription)) {
+    if (!(payload.batchName && batchDescription)) {
       return res.status(400).send({
         status: "error",
         message: "Missing Body",
@@ -195,7 +195,7 @@ const addParticipant = async (req, res) => {
       });
     }
     const payload = req.body;
-    if (!(payload.userId || payload.userFullName)) {
+    if (!(payload.userId && payload.userFullName)) {
       return res.status(400).send({
         status: "error",
         message: "Missing Body",
@@ -242,7 +242,7 @@ const addMentor = async (req, res) => {
       });
     }
     const payload = req.body;
-    if (!(payload.userId || payload.userFullName)) {
+    if (!(payload.userId && payload.userFullName)) {
       return res.status(400).send({
         status: "error",
         message: "Missing Body",

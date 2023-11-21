@@ -5,8 +5,8 @@ const addCourse = async (req, res) => {
     const payload = req.body;
     if (
       !(
-        payload.courseName ||
-        payload.courseDescription ||
+        payload.courseName &&
+        payload.courseDescription &&
         payload.learningTrackId
       )
     ) {
@@ -121,8 +121,8 @@ const updateCourseById = async (req, res) => {
     }
     if (
       !(
-        payload.courseName ||
-        payload.courseDescription ||
+        payload.courseName &&
+        payload.courseDescription &&
         payload.learningTrackId
       )
     ) {

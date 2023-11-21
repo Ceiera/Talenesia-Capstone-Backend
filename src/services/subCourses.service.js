@@ -57,10 +57,6 @@ const updateSubCourseById = async (id, subCourse) => {
     if (!findSubCourseById) {
       return "Not Found";
     }
-    const futureDate = new Date(currentDate);
-    const DefaultCloseDate = futureDate.setFullYear(
-      currentDate.getFullYear() + 1
-    );
     const payload = {
       subCourseName: subCourse.subCourseName,
       subCourseMaterial: subCourse.subCourseMaterial,
@@ -77,6 +73,7 @@ const updateSubCourseById = async (id, subCourse) => {
     );
     return updatedSubCourse;
   } catch (error) {
+    console.log(error)
     return "Server Error";
   }
 };

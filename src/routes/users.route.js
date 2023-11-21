@@ -46,5 +46,10 @@ router.get(
   usersController.getUserSubmission
 );
 
+router.get(
+  "/userId",
+  usersController.getUserBadgesByUserId
+);
+
 const usersRoute = router;
 export default usersRoute;

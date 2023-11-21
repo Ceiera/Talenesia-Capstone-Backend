@@ -4,7 +4,7 @@ import bcrypt from "bcrypt";
 const login = async (req, res) => {
   try {
     const payload = req.body;
-    if (!(payload.email || payload.password)) {
+    if (!(payload.email && payload.password)) {
       res
         .status(400)
         .send({ status: "error", message: "Missing Body", data: [] });

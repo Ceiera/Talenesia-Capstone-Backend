@@ -4,9 +4,9 @@ const addUserBadge = async (req, res) => {
     const payload = req.body;
     if (
       !(
-        payload.userId ||
-        payload.badgeId ||
-        payload.subCourseId ||
+        payload.userId &&
+        payload.badgeId &&
+        payload.subCourseId &&
         payload.batchId
       )
     ) {

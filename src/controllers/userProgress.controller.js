@@ -3,7 +3,7 @@ import userProgressService from "../services/userProgress.service.js";
 const addUserProgress = async (req, res) => {
   try {
     const payload = req.body;
-    if (!(payload.userId || payload.batchId || payload.subCourseId)) {
+    if (!(payload.userId && payload.batchId && payload.subCourseId)) {
       return res.status(400).send({
         status: "error",
         message: "Missing Body",
@@ -106,7 +106,7 @@ const updateUserProgressById = async (req, res) => {
       });
     }
     const payload = req.body;
-    if (!(payload.userId || payload.batchId || payload.subCourseId)) {
+    if (!(payload.userId && payload.batchId && payload.subCourseId)) {
       return res.status(400).send({
         status: "error",
         message: "Missing Body",

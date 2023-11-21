@@ -23,7 +23,7 @@ const getAllLearningTracks = async (req, res) => {
 const addLearningTrack = async (req, res) => {
   try {
     const payload = req.body;
-    if (!(payload.learningTrackName || payload.learningTrackDescription)) {
+    if (!(payload.learningTrackName && payload.learningTrackDescription)) {
       return res.status(400).send({
         status: "error",
         message: "Missing Body",
@@ -87,7 +87,7 @@ const updateLearningTrackById = async (req, res) => {
       });
     }
     const payload = req.body;
-    if (!(payload.learningTrackName || payload.learningTrackDescription)) {
+    if (!(payload.learningTrackName && payload.learningTrackDescription)) {
       return res.status(400).send({
         status: "error",
         message: "Missing Body",
