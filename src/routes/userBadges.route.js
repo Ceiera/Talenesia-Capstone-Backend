@@ -8,7 +8,7 @@ userBadgesRouter.post("/", userBadgesController.addUserBadge);
 userBadgesRouter.get("/", userBadgesController.getAllUserBadges);
 
 userBadgesRouter.get(
-  "/:userBadgeId/filters",
+  "/filters",
   userBadgesController.getUserBadgesByBatchIdandSubCourseId
 );
 
