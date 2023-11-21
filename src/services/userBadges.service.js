@@ -57,7 +57,7 @@ const getUserBadgeByUserId = async (id) => {
         },
       },
     ]);
-    if (userBadge < 1) {
+    if (userBadge.length < 1) {
       return "Not Found";
     }
     return userBadge;
@@ -81,7 +81,7 @@ const getUserBadgeBySubCourseId = async (id) => {
         },
       },
     ]);
-    if (userBadge < 1) {
+    if (userBadge.length < 1) {
       return "Not Found";
     }
     return userBadge;
@@ -136,7 +136,7 @@ const getUserBadgeByBatchId = async (id) => {
         },
       },
     ]);
-    if (userbadge.length < 1) {
+    if (userBadge.length < 1) {
       return "Not Found";
     }
     return userBadge;
