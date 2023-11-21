@@ -59,7 +59,7 @@ const updateSubCourseById = async (id, subCourse) => {
     }
     const payload = {
       subCourseName: subCourse.subCourseName,
-      subCourseMaterial: subCourse.subCourseMaterial,
+      subCourseMaterial: [subCourse.subCourseMaterial],
       subCourseType: subCourse.subCourseType,
       courseId: subCourse.courseId,
       openDate: subCourse.openDate,
