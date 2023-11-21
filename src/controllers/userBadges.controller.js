@@ -143,10 +143,11 @@ const getUserBadgesByBatchIdandSubCourseId = async (req, res) => {
         data: [],
       });
     }
-    const userBadges = await userBadgesService.getUserBadgesByBatchIdandSubCourseId(
-      batchId,
-      subCourseId
-    );
+    const userBadges =
+      await userBadgesService.getUserBadgesByBatchIdandSubCourseId(
+        batchId,
+        subCourseId
+      );
     if (userBadges === "Server Error") {
       return res
         .status(500)
@@ -163,7 +164,7 @@ const getUserBadgesByBatchIdandSubCourseId = async (req, res) => {
       message: "Server Error",
       data: [],
     });
-}
+  }
 };
 
 const userBadgesController = {
@@ -171,6 +172,7 @@ const userBadgesController = {
   getAllUserBadges,
   getUserBadgeById,
   deleteUserBadgeById,
+  getUserBadgesByBatchIdandSubCourseId,
 };
 
 export default userBadgesController;
