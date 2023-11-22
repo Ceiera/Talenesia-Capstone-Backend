@@ -139,7 +139,7 @@ const getUserBadgeByBatchId = async (id) => {
             $first: { $arrayElemAt: ["$userdetail", 0] },
           },
           listBadges: {
-            $push: { $arrayElemAt: ["$detailbadge", 0] },
+            $push: {$arrayElemAt:["$detailbadge", 0]},
           },
         },
       },
