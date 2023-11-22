@@ -3,6 +3,14 @@ import { nanoid } from "nanoid";
 
 const addUserBadge = async (userBadge) => {
   try {
+    const findUserBadge = await UserBadgesModel.findOne({
+      batchId: userBadge.batchId,
+      subCourseId: userBadge.subCourseId,
+      userId: userBadge.userId,
+    })
+    if (findUserBadge) {
+      throw new Error("User Badge already exists");
+    }
     const userBadges = new UserBadgesModel({
       userBadgesId: nanoid(12),
       userId: userBadge.userId,
