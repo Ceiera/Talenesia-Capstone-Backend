@@ -7,7 +7,7 @@ const addUserBadge = async (userBadge) => {
       batchId: userBadge.batchId,
       subCourseId: userBadge.subCourseId,
       userId: userBadge.userId,
-    })
+    });
     if (findUserBadge) {
       throw new Error("User Badge already exists");
     }
@@ -138,8 +138,19 @@ const getUserBadgeByBatchId = async (id) => {
           detailUser: {
             $first: { $arrayElemAt: ["$userdetail", 0] },
           },
+          userBadgesId: {
+            $first: "$userBadgesId",
+          },
+          subCourseId: {
+            $first: "$subCourseId",
+          },
+          badgeId: {
+            $first: "$badgeId",
+          },
           listBadges: {
-            $push: {$arrayElemAt:["$detailbadge", 0]},
+            $push: {
+              $arrayElemAt: ["$detailbadge", 0],
+            },
           },
         },
       },
